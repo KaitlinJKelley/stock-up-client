@@ -1,13 +1,14 @@
 import React, { createContext, useState } from "react"
 
-export const DatabaseList = createContext()
+export const DatabaseContext = createContext()
 
-export const GameProvider = (props) => {
-    const [ database, setDatabase ] = useState([])
+export const DatabaseProvider = (props) => {
+
+    const [database, setDatabase] = useState([])
 
     const getDatabase = () => {
         return fetch("http://localhost:8000/database", {
-            headers:{
+            headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
@@ -16,8 +17,8 @@ export const GameProvider = (props) => {
     }
 
     return (
-        <DatabaseContext.Provider value={{ database, getDatabase }} >
-            { props.children }
+        <DatabaseContext.Provider value={{ database, getDatabase }}>
+            {props.children}
         </DatabaseContext.Provider>
     )
 }
