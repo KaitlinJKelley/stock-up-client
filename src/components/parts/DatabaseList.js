@@ -3,8 +3,11 @@ import { useHistory } from 'react-router'
 import {DatabaseContext} from './DatabaseProvider'
 import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup'
+import { Link } from 'react-router-dom'
+import { InventoryForm } from '../inventory/InventoryForm'
 
 export const DatabaseList = () => {
+    const history = useHistory()
 
     const { getDatabase, database } = useContext(DatabaseContext)
 
@@ -21,7 +24,7 @@ export const DatabaseList = () => {
             <ListGroup.Item>{part.name}</ListGroup.Item>
             <ListGroup.Item>{part.part_number}</ListGroup.Item>
             <ListGroup.Item>{part.vendor.name}</ListGroup.Item>
-            <Button variant='success'>Add to inventory</Button>
+            <Link to={{pathname: '/inventory/new', state: {part: part}}} variant='success'>Add to inventory</Link>
         </ListGroup>
         ))
         )}
