@@ -24,7 +24,7 @@ export const DatabaseList = () => {
             <ListGroup.Item>{part.name}</ListGroup.Item>
             <ListGroup.Item>{part.part_number}</ListGroup.Item>
             <ListGroup.Item>{part.vendor.name}</ListGroup.Item>
-            <Link to={{pathname: '/inventory/new', state: {partId: part.id, partName: part.name, partNumber: part.number, partVendor: part.vendor.name}}} variant='success'>Add to inventory</Link>
+            <Link to={{pathname: '/inventory/new', state: {part: part}}} variant='success'>Add to inventory</Link>
         </ListGroup>
         ))
         )}
