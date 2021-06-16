@@ -16,7 +16,7 @@ export const ProductProvider = (props) => {
             .then(setProducts)
     }
 
-    const deleteProduct = (id) => {
+    const deleteProduct = id => {
         return fetch(`http://localhost:8000/products/${id}`, {
           method: "DELETE",
           headers: {
@@ -26,7 +26,7 @@ export const ProductProvider = (props) => {
         .then(getProducts)
     }
 
-      const getProductById = (id) => {
+      const getProductById = id => {
         return fetch(`http://localhost:8000/products/${id}`, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
@@ -35,7 +35,7 @@ export const ProductProvider = (props) => {
             .then(response => response.json())
     }
 
-    const addNewProduct = (product) => {
+    const addNewProduct = product => {
         return fetch("http://localhost:8000/products", {
             method: "POST",
             headers: {
@@ -46,8 +46,20 @@ export const ProductProvider = (props) => {
          })
     }
 
+    const updateProduct = product => {
+        return fetch(`http://localhost:8000/products/${product.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            },
+            body: JSON.stringify(product)
+         })
+            .then(getProducts)
+    }
+
     return (
-        <ProductContext.Provider value={{ products, getProducts, deleteProduct, getProductById, addNewProduct }}>
+        <ProductContext.Provider value={{ products, getProducts, deleteProduct, getProductById, addNewProduct, updateProduct }}>
             {props.children}
         </ProductContext.Provider>
     )

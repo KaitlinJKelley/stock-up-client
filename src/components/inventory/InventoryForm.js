@@ -30,7 +30,8 @@ export const InventoryForm = (props) => {
         setNewInventory(newInventoryCopy)
     }
 
-    const handleSave = () => {
+    const handleSave = event => {
+        event.preventDefault()
         addToInventory(newInventory)
         history.push('/database')
 
@@ -67,7 +68,7 @@ export const InventoryForm = (props) => {
                 textAlign:"center"
             }}>
             </Form.Group>
-            <Button variant='success' className="btn btn-1 btn-sep icon-send" type="submit" 
+            <Button variant='success' className="btn btn-1 btn-sep icon-send"
             onClick={handleSave}
             >Add to Inventory</Button>
         </Form>
