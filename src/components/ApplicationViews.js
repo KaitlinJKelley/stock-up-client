@@ -5,6 +5,7 @@ import { InventoryProvider } from "./inventory/InventoryProvider"
 import { DatabaseList } from "./parts/DatabaseList"
 import { DatabaseProvider } from "./parts/DatabaseProvider"
 import { ProductDetail } from "./products/ProductDetail"
+import { ProductForm } from "./products/ProductForm"
 import { ProductList } from "./products/ProductList"
 import { ProductProvider } from "./products/ProductProvider"
 
@@ -17,18 +18,25 @@ export const ApplicationViews = () => {
             <DatabaseProvider>
                 <InventoryProvider>
                     <ProductProvider>
+                        
                         <Route path='/database'>
                             <DatabaseList/>
                         </Route>
+
                         <Route path='/inventory'>
                             <ProductList/>
                         </Route>
                         <Route path='/inventory/new'>
                             <InventoryForm/>
                         </Route>
+
+                        <Route path='/products/new'>
+                            <ProductForm/>
+                        </Route>
                         <Route path='/products/:productId(\d+)'>
                             <ProductDetail/>
                         </Route>
+
                     </ProductProvider>
                 </InventoryProvider>
             </DatabaseProvider>
