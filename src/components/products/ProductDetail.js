@@ -25,12 +25,10 @@ export const ProductDetail = () => {
                 <ListGroup.Item className="w-50" variant='dark'>Amount Used</ListGroup.Item>
             </ListGroup>
         {product?.parts?.map(part =>
-            <> 
-            <ListGroup horizontal key={product.id} >
+            <ListGroup horizontal key={part.id} >
                 <ListGroup.Item className="w-50" variant='light'><Link to={{pathname: `/inventory/${part.id}`}}>{part.name}</Link></ListGroup.Item>
                 <ListGroup.Item className="w-50" variant='light'>{part.amount_used}</ListGroup.Item>
             </ListGroup>
-            </>
         )}
     </>)
 }

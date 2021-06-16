@@ -29,9 +29,10 @@ export const ProductForm = () => {
                 for (let part in res.parts) {
                     parseInt(part)
                     res.parts[part] = {
-                        "name": res.parts[part].name,
+                        "name": `${res.parts[part].name} , Measured in: ${res.parts[part].unit_of_measurement.label}`,
                         "partId": res.parts[part].id,
-                        "amountUsed": res.parts[part].amount_used 
+                        "amountUsed": res.parts[part].amount_used, 
+                        "unitOfMeasurement": res.parts[part].unit_of_measurement.label 
                     }
                 }
                 setProduct(res)
@@ -39,14 +40,12 @@ export const ProductForm = () => {
         }
     }, [])
 
-    {console.log(product)}
-
     useEffect(() => {
         let options = []
         inventory.map(part => 
            options.push({
                 "partId": part.id,
-                "name": part.part.name
+                "name": `${part.part.name}, Measured in: ${part.part.unit_of_measurement.label}`
             } )   
         )
         setOptions(options)
@@ -82,14 +81,14 @@ export const ProductForm = () => {
 
     return(<>
         <>
-            {productId ? <h1>Edit Product</h1> : <h1>New Product</h1>}
             <Form>
+                {productId ? <h1>Edit Product</h1> : <h1>New Product</h1>}
                 <Form.Label htmlFor='name'></Form.Label>
                 <Form.Control value={product.name} 
                                 type="text" name="name" 
                                 className="form-control" 
-                                placeholder='Product Name' required autoFocus 
-                                onChange={handleNameChange}></Form.Control>
+                                placeholder='Product Name' required autoFocus  
+                                onChange={handleNameChange}></Form.Control> 
                 <Form.Label htmlFor='parts'></Form.Label>
                 {productId ? <Multiselect name="parts" selectedValues={product.parts} options={options} displayValue="name" onSelect={handleSelectChosen} onRemove={handleSelectChosen}></Multiselect> : <Multiselect name="parts" options={options} displayValue="name" onSelect={handleSelectChosen} onRemove={handleSelectChosen}></Multiselect>}
                 <Form.Label></Form.Label>
@@ -102,7 +101,7 @@ export const ProductForm = () => {
                         <ListGroup horizontal key={part.id}>
                             <Form.Control readOnly placeholder={part.name}></Form.Control>
                             <Form.Control placeholder='0' 
-                                            value={part.amountUsed} 
+                                            value={part.amountUsed}
                                             id={`${product.parts.indexOf(part)}`} 
                                             type="text" name="amountUsed" 
                                             onChange={handleAmountUsedInputChange} className="form-control" required autoFocus />
@@ -114,7 +113,7 @@ export const ProductForm = () => {
                     textAlign:"center"
                 }}>
                 </Form.Group>
-                {productId ? <Button variant='success' type="submit" onClick={handleSave}>Save Changes</Button> : <Button variant='success' type="submit" onClick={handleAdd}>Add Product</Button>}
+                {productId ? <Button variant='success' onClick={handleSave}>Save Changes</Button> : <Button variant='success' type="submit" onClick={handleAdd}>Add Product</Button>}
             </Form> 
         </>
     </>)
