@@ -16,8 +16,15 @@ export const ProductProvider = (props) => {
             .then(setProducts)
     }
 
+    const deleteProduct = (id) => {
+        return fetch(`http://localhost:8088/comments/${id}`, {
+          method: "DELETE"
+        })
+        .then(getProducts)
+      }
+
     return (
-        <ProductContext.Provider value={{ products, getProducts }}>
+        <ProductContext.Provider value={{ products, getProducts, deleteProduct }}>
             {props.children}
         </ProductContext.Provider>
     )
