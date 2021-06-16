@@ -18,18 +18,18 @@ export const ApplicationViews = () => {
             <DatabaseProvider>
                 <InventoryProvider>
                     <ProductProvider>
-                        
+
                         <Route path='/database'>
                             <DatabaseList/>
                         </Route>
 
-                        <Route path='/inventory'>
-                            <ProductList/>
-                        </Route>
                         <Route path='/inventory/new'>
                             <InventoryForm/>
                         </Route>
 
+                        <Route exact path='/products'>
+                            <ProductList/>
+                        </Route>
                         <Route path='/products/new'>
                             <ProductForm/>
                         </Route>
