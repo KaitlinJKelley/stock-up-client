@@ -35,8 +35,19 @@ export const ProductProvider = (props) => {
             .then(response => response.json())
     }
 
+    const addNewProduct = (product) => {
+        return fetch("http://localhost:8000/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            },
+            body: JSON.stringify(product)
+         })
+    }
+
     return (
-        <ProductContext.Provider value={{ products, getProducts, deleteProduct, getProductById }}>
+        <ProductContext.Provider value={{ products, getProducts, deleteProduct, getProductById, addNewProduct }}>
             {props.children}
         </ProductContext.Provider>
     )
