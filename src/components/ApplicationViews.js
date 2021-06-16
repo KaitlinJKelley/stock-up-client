@@ -33,6 +33,9 @@ export const ApplicationViews = () => {
                         <Route path='/products/new'>
                             <ProductForm/>
                         </Route>
+                        <Route path='/products/edit/:productId(\d+)'>
+                            <ProductForm/>
+                        </Route>
                         <Route path='/products/:productId(\d+)'>
                             <ProductDetail/>
                         </Route>

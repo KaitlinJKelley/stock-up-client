@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react' 
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useHistory } from 'react-router-dom'
 import { ProductContext } from './ProductProvider'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
 
 export const ProductDetail = () => {
+    const history = useHistory()
     const {productId} = useParams()
 
     const {getProductById} = useContext(ProductContext)
@@ -18,7 +19,7 @@ export const ProductDetail = () => {
 
     return(<>
         <h1>{product.name}</h1>
-        <Button variant='warning'>Edit Product</Button>
+        <Button variant='warning' onClick={() => history.push(`/products/edit/${product.id}`)}>Edit Product</Button>
         <ListGroup horizontal key={product.id}>
                 <ListGroup.Item className="w-50" variant='dark'>Part Name</ListGroup.Item>
                 <ListGroup.Item className="w-50" variant='dark'>Amount Used</ListGroup.Item>
