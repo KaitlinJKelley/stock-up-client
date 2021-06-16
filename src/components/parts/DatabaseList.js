@@ -4,7 +4,6 @@ import {DatabaseContext} from './DatabaseProvider'
 import Button from 'react-bootstrap/Button'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { Link } from 'react-router-dom'
-import { InventoryForm } from '../inventory/InventoryForm'
 
 export const DatabaseList = () => {
     const history = useHistory()
