@@ -39,6 +39,8 @@ export const ProductForm = () => {
         }
     }, [])
 
+    {console.log(product)}
+
     useEffect(() => {
         let options = []
         inventory.map(part => 
