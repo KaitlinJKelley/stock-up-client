@@ -17,8 +17,11 @@ export const ProductProvider = (props) => {
     }
 
     const deleteProduct = (id) => {
-        return fetch(`http://localhost:8088/comments/${id}`, {
-          method: "DELETE"
+        return fetch(`http://localhost:8000/products/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            }
         })
         .then(getProducts)
       }
