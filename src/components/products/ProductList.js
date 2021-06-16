@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom'
 import { ProductContext } from './ProductProvider'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/Button'
-import Nav from 'react-bootstrap/Nav'
 import Modal from 'react-bootstrap/Modal'
 
 export const ProductList = () => {
