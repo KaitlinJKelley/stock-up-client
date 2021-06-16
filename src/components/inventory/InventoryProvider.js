@@ -27,8 +27,18 @@ export const InventoryProvider = (props) => {
             .then(setUnitsOfMeasurement)
     }
 
+    const getInventory = () => {
+        return fetch("http://localhost:8000/inventory", {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            }
+        })
+            .then(response => response.json())
+            .then(setInventory)
+    }
+
     return (
-        <InventoryContext.Provider value={{ inventory, addToInventory, unitsOfMeasurement, getUnitsOfMeasurement }}>
+        <InventoryContext.Provider value={{ inventory, addToInventory, unitsOfMeasurement, getUnitsOfMeasurement, getInventory }}>
             {props.children}
         </InventoryContext.Provider>
     )
