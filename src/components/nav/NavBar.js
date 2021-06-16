@@ -16,8 +16,8 @@ export const NavBar = () => {
         <NavDropdown.Item href="/database">Add Part to Inventory</NavDropdown.Item>
       </NavDropdown>
       <NavDropdown title="Products" id="collapsible-nav-dropdown">
-        <NavDropdown.Item href="/inventory">All Products</NavDropdown.Item>
-        <NavDropdown.Item href="/database">Add New Product</NavDropdown.Item>
+        <NavDropdown.Item href="/products">All Products</NavDropdown.Item>
+        <NavDropdown.Item href="/products/new">Add New Product</NavDropdown.Item>
       </NavDropdown>
     </Nav>
   </Navbar.Collapse>

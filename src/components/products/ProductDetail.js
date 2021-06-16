@@ -18,7 +18,7 @@ export const ProductDetail = () => {
 
     return(<>
         <h1>{product.name}</h1>
-        <Button variant='warning'>Edit</Button>
+        <Button variant='warning'>Edit Product</Button>
         <ListGroup horizontal key={product.id}>
                 <ListGroup.Item className="w-50" variant='dark'>Part Name</ListGroup.Item>
                 <ListGroup.Item className="w-50" variant='dark'>Amount Used</ListGroup.Item>
