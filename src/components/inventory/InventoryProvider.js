@@ -49,8 +49,19 @@ export const InventoryProvider = (props) => {
          .then(response => response.json())
     }
 
+    const removeInventory = id => {
+        return fetch(`http://localhost:8000/inventory/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            }
+        })
+        .then(getInventory)
+    }
+
     return (
-        <InventoryContext.Provider value={{ inventory, addToInventory, unitsOfMeasurement, getUnitsOfMeasurement, getInventory, checkPart }}>
+        <InventoryContext.Provider value={{ inventory, addToInventory, unitsOfMeasurement, getUnitsOfMeasurement, 
+                                            getInventory, checkPart, removeInventory }}>
             {props.children}
         </InventoryContext.Provider>
     )
