@@ -16,8 +16,20 @@ export const DatabaseProvider = (props) => {
             .then(setDatabase)
     }
 
+    const addNewDatabasePart = part => {
+        return fetch("http://localhost:8000/database", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            },
+            body: JSON.stringify(part)
+         })
+         .then(getDatabase)
+    }
+
     return (
-        <DatabaseContext.Provider value={{ database, getDatabase }}>
+        <DatabaseContext.Provider value={{ database, getDatabase, addNewDatabasePart }}>
             {props.children}
         </DatabaseContext.Provider>
     )
