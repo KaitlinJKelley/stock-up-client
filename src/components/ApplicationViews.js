@@ -36,7 +36,7 @@ export const ApplicationViews = () => {
                             <Route path='/inventory/new'>
                                 <InventoryForm/>
                             </Route>
-                            <Route path='/inventory/:partId(\d+'>
+                            <Route path='/inventory/:partId(\d+)'>
                                 <InventoryDetail/>
                             </Route>
 
