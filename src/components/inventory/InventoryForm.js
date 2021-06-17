@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react' 
-import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { InventoryContext } from './InventoryProvider'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -100,7 +100,7 @@ export const InventoryForm = () => {
             {urlPath === "/inventory/new" ? 
                 <>
                     <Form.Label>Part Name:</Form.Label>
-                    <Form.Control></Form.Control>
+                    <Form.Control readOnly placeholder={part.name}></Form.Control>
                     <Form.Label>Part Number:</Form.Label>
                     <Form.Control readOnly placeholder={part.part_number}></Form.Control>
                     <Form.Label>Vendor:</Form.Label>
