@@ -7,11 +7,12 @@ import { useHistory } from 'react-router-dom'
 export const InventoryList = () => {
     const history = useHistory()
 
-    const {getInventory, inventory} = useContext(InventoryContext)
+    const {getInventory, inventory, removeInventory} = useContext(InventoryContext)
 
     useEffect(() => {
         getInventory()
     }, [])
+
 
 
     return (<>
@@ -24,7 +25,7 @@ export const InventoryList = () => {
             <ListGroup.Item>{part.part.part_number}</ListGroup.Item>
             <ListGroup.Item>{part.part.vendor.name}</ListGroup.Item>
             <ListGroup.Item>{part.in_inventory}</ListGroup.Item>
-            <Button variant='danger'>Remove</Button>
+            <Button id={part.id} onClick={event => removeInventory(event.target.id)} variant='danger'>Remove</Button>
         </ListGroup>
         ))
         )}
