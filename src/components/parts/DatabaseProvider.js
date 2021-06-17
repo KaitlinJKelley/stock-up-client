@@ -25,6 +25,7 @@ export const DatabaseProvider = (props) => {
             },
             body: JSON.stringify(part)
          })
+         .then(getDatabase)
     }
 
     return (
