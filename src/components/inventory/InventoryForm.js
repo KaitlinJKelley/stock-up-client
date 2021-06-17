@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react' 
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom'
 import { InventoryContext } from './InventoryProvider'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { DatabaseContext } from '../parts/DatabaseProvider'
+import { VendorContext } from '../vendors/VendorProvider'
+import { ListGroup } from 'react-bootstrap'
 
 export const InventoryForm = (props) => {
     const history = useHistory()
 
     const urlPath = history.location.pathname
 
-    const {getUnitsOfMeasurement, unitsOfMeasurement, addToInventory} = useContext(InventoryContext)
-
+    const {getUnitsOfMeasurement, unitsOfMeasurement, addToInventory, checkPart} = useContext(InventoryContext)
     const {addNewDatabasePart} = useContext(DatabaseContext)
+    const {vendors, getVendors} = useContext(VendorContext)
 
     const location = useLocation()
     let part = null
@@ -21,6 +23,7 @@ export const InventoryForm = (props) => {
         part = passPart
     }
     
+    const [partExists, setPartExists] = useState(false)
 
     const [newInventory, setNewInventory] = useState({
         "name": "",
@@ -36,7 +39,20 @@ export const InventoryForm = (props) => {
 
     useEffect(() => {
         getUnitsOfMeasurement()
+        getVendors()
     }, [])
+
+    useEffect(() => {
+        if (newInventory.name !== "" & newInventory.partNumber !== "" & newInventory.vendor != "") {
+            const partToCheck = {
+                "name": newInventory.name,
+                "partNumber": newInventory.partNumber,
+                "vendor": newInventory.vendor
+            }
+            checkPart(partToCheck)
+            .then(res => setPartExists(res.exists))
+        }
+    }, [newInventory])
 
     const handleChange = event => {
         const newInventoryCopy = { ...newInventory }
@@ -76,7 +92,12 @@ export const InventoryForm = (props) => {
                     <Form.Label htmlFor="partNumber">Part Number:</Form.Label>
                     <Form.Control onChange={handleChange} value={newInventory.partNumber} type="text" name="partNumber" className="form-control" required autoFocus></Form.Control>
                     <Form.Label htmlFor="vendor">Vendor:</Form.Label>
-                    <Form.Control onChange={handleChange} value={newInventory.vendor} type="text" name="vendor" className="form-control" required autoFocus></Form.Control>
+                    <Form.Control as='select' name="vendor" value={`${newInventory.vendor}`} onChange={handleChange}>
+                        <option value='0'>Select vendor</option>
+                        {vendors.map(vendor => <option key={vendor.id} value={vendor.id}>{vendor.name}</option>)}
+                        <option name='addNew'>[Add New]</option>
+                    </Form.Control>
+                    {partExists ? <Form.Label>This part already exists. You can add this part to your inventory from the <Link to='/database'>Part Database</Link></Form.Label> : ""}
                     <Form.Label htmlFor="vendorWebsite">Vendor Website:</Form.Label>
                     <Form.Control onChange={handleChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
                 </>
@@ -93,7 +114,7 @@ export const InventoryForm = (props) => {
                     <Form.Label htmlFor="cost">Cost per unit (USD) </Form.Label>
                     <Form.Control placeholder='0.00' onChange={handleChange} value={newInventory.cost} type="text" name="cost" className="form-control" required autoFocus ></Form.Control>
                 </Form.Group>
-                <Form.Label htmlFor='unitOfMeasurement'>Unit of measurement: </Form.Label>
+                <Form.Label htmlFor='unitOfMeasurement'>Select unit of measurement: </Form.Label>
                 <Form.Control as='select' name="unitOfMeasurement" value={`${newInventory.unitOfMeasurement}`} onChange={handleChange}>
                     <option value='0'>Unit of Measurement</option>
                     {unitsOfMeasurement.map(unit => <option key={unit.id} value={unit.id}>{unit.label}</option>)}
