@@ -5,9 +5,9 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { DatabaseContext } from '../parts/DatabaseProvider'
 import { VendorContext } from '../vendors/VendorProvider'
-import { ListGroup } from 'react-bootstrap'
 
-export const InventoryForm = (props) => {
+export const InventoryForm = () => {
+
     const history = useHistory()
 
     const urlPath = history.location.pathname
@@ -24,6 +24,7 @@ export const InventoryForm = (props) => {
     }
     
     const [partExists, setPartExists] = useState(false)
+    const [addNewClicked, setAddNewClicked] = useState(false)
 
     const [newInventory, setNewInventory] = useState({
         "name": "",
@@ -31,10 +32,10 @@ export const InventoryForm = (props) => {
         "vendor": "",
         "vendorWebsite": "",
         "partId": `${urlPath === "/inventory/new" ? part.id : 0}`,
-        "inInventory": null,
-        "minRequired": null,
+        "inInventory": "",
+        "minRequired": "",
         "unitOfMeasurement": `${urlPath === "/inventory/new" ? part.unit_of_measurement.id : 0}`,
-        "cost": null
+        "cost": ""
     })
 
     useEffect(() => {
@@ -43,7 +44,11 @@ export const InventoryForm = (props) => {
     }, [])
 
     useEffect(() => {
-        if (newInventory.name !== "" & newInventory.partNumber !== "" & newInventory.vendor != "") {
+        if (newInventory.vendor === "[Add New]") {
+            setAddNewClicked(true)
+            setPartExists(false)
+        }
+        else if (newInventory.name !== "" & newInventory.partNumber !== "" & newInventory.vendor != "") {
             const partToCheck = {
                 "name": newInventory.name,
                 "partNumber": newInventory.partNumber,
@@ -52,12 +57,14 @@ export const InventoryForm = (props) => {
             checkPart(partToCheck)
             .then(res => setPartExists(res.exists))
         }
+        
     }, [newInventory])
 
     const handleChange = event => {
-        const newInventoryCopy = { ...newInventory }
-        newInventoryCopy[event.target.name] = event.target.value
-        setNewInventory(newInventoryCopy)
+            const newInventoryCopy = { ...newInventory }
+            newInventoryCopy[event.target.name] = event.target.value
+            setNewInventory(newInventoryCopy)
+            setAddNewClicked(false)
     }
 
     const handleSave = event => {
@@ -69,7 +76,6 @@ export const InventoryForm = (props) => {
             addNewDatabasePart(newInventory)
         }
         history.push('/database')
-
     }
 
     return(
@@ -92,14 +98,19 @@ export const InventoryForm = (props) => {
                     <Form.Label htmlFor="partNumber">Part Number:</Form.Label>
                     <Form.Control onChange={handleChange} value={newInventory.partNumber} type="text" name="partNumber" className="form-control" required autoFocus></Form.Control>
                     <Form.Label htmlFor="vendor">Vendor:</Form.Label>
-                    <Form.Control as='select' name="vendor" value={`${newInventory.vendor}`} onChange={handleChange}>
+                    <Form.Control onChange={handleChange} as='select' name="vendor" value={`${newInventory.vendor}`}>
                         <option value='0'>Select vendor</option>
                         {vendors.map(vendor => <option key={vendor.id} value={vendor.id}>{vendor.name}</option>)}
-                        <option name='addNew'>[Add New]</option>
+                        <option name="addNew">[Add New]</option>
                     </Form.Control>
-                    {partExists ? <Form.Label>This part already exists. You can add this part to your inventory from the <Link to='/database'>Part Database</Link></Form.Label> : ""}
-                    <Form.Label htmlFor="vendorWebsite">Vendor Website:</Form.Label>
-                    <Form.Control onChange={handleChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
+                    {partExists ? <Form.Label>This part already exists. You can add this part to your inventory from the <Link to='/database'>Part Database Page</Link></Form.Label> : ""}
+                    {addNewClicked & partExists === false ? 
+                        <>
+                        <Form.Label htmlFor="vendorWebsite">Vendor Website:</Form.Label>
+                        <Form.Control onChange={handleChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
+                        <Button>Add Vendor</Button>
+                        </>
+                    : ""}
                 </>
                  }
                 <Form.Group>
@@ -124,7 +135,7 @@ export const InventoryForm = (props) => {
                 textAlign:"center"
             }}>
             </Form.Group>
-            <Button variant='success' className="btn btn-1 btn-sep icon-send"
+            <Button disabled={partExists} variant='success' className="btn btn-1 btn-sep icon-send"
             onClick={handleSave}
             >Add to Inventory</Button>
         </Form>
