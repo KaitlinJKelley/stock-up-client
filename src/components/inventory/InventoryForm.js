@@ -7,16 +7,27 @@ import Button from 'react-bootstrap/Button'
 export const InventoryForm = (props) => {
     const history = useHistory()
 
+    const urlPath = history.location.pathname
+
     const {getUnitsOfMeasurement, unitsOfMeasurement, addToInventory} = useContext(InventoryContext)
 
     const location = useLocation()
-    const {part} = location.state
+    let part = null
+    if (urlPath === "/inventory/new") {
+        const {passPart} = location.state
+        part = passPart
+    }
+    
 
     const [newInventory, setNewInventory] = useState({
-        "partId": part.id,
+        "name": "",
+        "partNumber": "",
+        "vendor": "",
+        "vendorWebsite": "",
+        "partId": `${urlPath === "/inventory/new" ? part.id : 0}`,
         "inInventory": null,
         "minRequired": null,
-        "unitOfMeasurement": part.unit_of_measurement.id,
+        "unitOfMeasurement": `${urlPath === "/inventory/new" ? part.unit_of_measurement.id : 0}`,
         "cost": null
     })
 
@@ -41,12 +52,27 @@ export const InventoryForm = (props) => {
         <>
         <h1>New Inventory</h1>
         <Form className="form--login">
-                <Form.Label>Part Name:</Form.Label>
-                <Form.Control readOnly placeholder={part.name}></Form.Control>
-                <Form.Label>Part Number:</Form.Label>
-                <Form.Control readOnly placeholder={part.part_number}></Form.Control>
-                <Form.Label>Vendor:</Form.Label>
-                <Form.Control readOnly placeholder={part.vendor.name}></Form.Control>
+            {urlPath === "/inventory/new" ? 
+                <>
+                    <Form.Label>Part Name:</Form.Label>
+                    <Form.Control></Form.Control>
+                    <Form.Label>Part Number:</Form.Label>
+                    <Form.Control readOnly placeholder={part.part_number}></Form.Control>
+                    <Form.Label>Vendor:</Form.Label>
+                    <Form.Control readOnly placeholder={part.vendor.name}></Form.Control>
+                </>
+                 : 
+                 <>
+                    <Form.Label htmlFor="name">Part Name:</Form.Label>
+                    <Form.Control onChange={handleChange} value={newInventory.name} type="text" name="name" className="form-control" required autoFocus></Form.Control>
+                    <Form.Label htmlFor="partNumber">Part Number:</Form.Label>
+                    <Form.Control onChange={handleChange} value={newInventory.partNumber} type="text" name="partNumber" className="form-control" required autoFocus></Form.Control>
+                    <Form.Label htmlFor="vendor">Vendor:</Form.Label>
+                    <Form.Control onChange={handleChange} value={newInventory.vendor} type="text" name="vendor" className="form-control" required autoFocus></Form.Control>
+                    <Form.Label htmlFor="vendorWebsite">Vendor Website:</Form.Label>
+                    <Form.Control onChange={handleChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
+                </>
+                 }
                 <Form.Group>
                     <Form.Label htmlFor="inInventory">Amount currently in stock: </Form.Label>
                     <Form.Control placeholder='0' onChange={handleChange} value={newInventory.inInventory} type="text" name="inInventory" className="form-control" required autoFocus />
@@ -61,6 +87,7 @@ export const InventoryForm = (props) => {
                 </Form.Group>
                 <Form.Label htmlFor='unitOfMeasurement'>Unit of measurement: </Form.Label>
                 <Form.Control as='select' name="unitOfMeasurement" value={`${newInventory.unitOfMeasurement}`} onChange={handleChange}>
+                    <option value='0'>Unit of Measurement</option>
                     {unitsOfMeasurement.map(unit => <option key={unit.id} value={unit.id}>{unit.label}</option>)}
                 </Form.Control>
             

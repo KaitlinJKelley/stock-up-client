@@ -16,14 +16,14 @@ export const DatabaseList = () => {
     
     return(<>
         <h1>All Parts</h1>
-        <Button variant='success'>Add new part</Button>
+        <Button variant='success' onClick={() => history.push('/database/new')}>Add new part</Button>
         {database.map(part => 
         ['sm'].map((breakpoint, idx) => (
         <ListGroup horizontal={breakpoint} className='database' key={idx}>
             <ListGroup.Item>{part.name}</ListGroup.Item>
             <ListGroup.Item>{part.part_number}</ListGroup.Item>
             <ListGroup.Item>{part.vendor.name}</ListGroup.Item>
-            <Link to={{pathname: '/inventory/new', state: {part: part}}} variant='success'>Add to inventory</Link>
+            <Link to={{pathname: '/inventory/new', state: {passPart: part}}} variant='success'>Add to inventory</Link>
         </ListGroup>
         ))
         )}
