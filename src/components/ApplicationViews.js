@@ -1,5 +1,6 @@
 import React from "react"
 import { Route } from "react-router-dom"
+import { InventoryDetail } from "./inventory/InventoryDetail"
 import { InventoryForm } from "./inventory/InventoryForm"
 import { InventoryList } from "./inventory/InventoryList"
 import { InventoryProvider } from "./inventory/InventoryProvider"
@@ -34,6 +35,9 @@ export const ApplicationViews = () => {
                             </Route>
                             <Route path='/inventory/new'>
                                 <InventoryForm/>
+                            </Route>
+                            <Route path='/inventory/:partId(\d+'>
+                                <InventoryDetail/>
                             </Route>
 
                             <Route exact path='/products'>

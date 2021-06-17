@@ -26,7 +26,7 @@ export const ProductProvider = (props) => {
         .then(getProducts)
     }
 
-      const getProductById = id => {
+    const getProductById = id => {
         return fetch(`http://localhost:8000/products/${id}`, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
