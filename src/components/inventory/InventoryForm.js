@@ -24,7 +24,7 @@ export const InventoryForm = () => {
     }
     
     const [partExists, setPartExists] = useState(false)
-    const [addNewClicked, setAddNewClicked] = useState(false)
+    const [addNewVendorClicked, setAddNewVendorClicked] = useState(false)
 
     const [newInventory, setNewInventory] = useState({
         "name": "",
@@ -45,7 +45,7 @@ export const InventoryForm = () => {
 
     useEffect(() => {
         if (newInventory.vendor === "[Add New]") {
-            setAddNewClicked(true)
+            setAddNewVendorClicked(true)
             setPartExists(false)
         }
         else if (newInventory.name !== "" & newInventory.partNumber !== "" & newInventory.vendor != "") {
@@ -60,13 +60,28 @@ export const InventoryForm = () => {
         
     }, [newInventory])
 
+    useEffect(() => {
+        if (newInventory.vendor === "[Add New]") {
+            const newInventoryCopy = { ...newInventory }
+            newInventoryCopy.vendor = ""
+            setNewInventory(newInventoryCopy)
+        }
+    }, [addNewVendorClicked]) 
+
     const handleChange = event => {
             const newInventoryCopy = { ...newInventory }
             newInventoryCopy[event.target.name] = event.target.value
             setNewInventory(newInventoryCopy)
-            setAddNewClicked(false)
+            if (newInventory.vendorWebsite === "") {
+                setAddNewVendorClicked(false)
+            }
     }
 
+    const handleNewVendorChange = event => {
+        const newInventoryCopy = { ...newInventory }
+        newInventoryCopy[event.target.name] = event.target.value
+        setNewInventory(newInventoryCopy)
+    }
     const handleSave = event => {
         event.preventDefault()
         if (urlPath === "/inventory/new") {
@@ -101,14 +116,15 @@ export const InventoryForm = () => {
                     <Form.Control onChange={handleChange} as='select' name="vendor" value={`${newInventory.vendor}`}>
                         <option value='0'>Select vendor</option>
                         {vendors.map(vendor => <option key={vendor.id} value={vendor.id}>{vendor.name}</option>)}
-                        <option name="addNew">[Add New]</option>
+                        <option value="[Add New]">[Add New]</option>
                     </Form.Control>
                     {partExists ? <Form.Label>This part already exists. You can add this part to your inventory from the <Link to='/database'>Part Database Page</Link></Form.Label> : ""}
-                    {addNewClicked & partExists === false ? 
+                    {addNewVendorClicked & partExists === false ? 
                         <>
-                        <Form.Label htmlFor="vendorWebsite">Vendor Website:</Form.Label>
-                        <Form.Control onChange={handleChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
-                        <Button>Add Vendor</Button>
+                        <Form.Label htmlFor="vendor">New Vendor Name:</Form.Label>
+                        <Form.Control onChange={handleNewVendorChange} value={newInventory.vendor} type="text" name="vendor" className="form-control" required autoFocus></Form.Control>
+                        <Form.Label htmlFor="vendorWebsite">New Vendor Website:</Form.Label>
+                        <Form.Control onChange={handleNewVendorChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
                         </>
                     : ""}
                 </>
