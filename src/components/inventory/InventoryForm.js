@@ -3,6 +3,7 @@ import { useHistory, useLocation, useParams } from 'react-router-dom'
 import { InventoryContext } from './InventoryProvider'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { DatabaseContext } from '../parts/DatabaseProvider'
 
 export const InventoryForm = (props) => {
     const history = useHistory()
@@ -10,6 +11,8 @@ export const InventoryForm = (props) => {
     const urlPath = history.location.pathname
 
     const {getUnitsOfMeasurement, unitsOfMeasurement, addToInventory} = useContext(InventoryContext)
+
+    const {addNewDatabasePart} = useContext(DatabaseContext)
 
     const location = useLocation()
     let part = null
@@ -43,7 +46,12 @@ export const InventoryForm = (props) => {
 
     const handleSave = event => {
         event.preventDefault()
-        addToInventory(newInventory)
+        if (urlPath === "/inventory/new") {
+            addToInventory(newInventory)
+        }
+        else {
+            addNewDatabasePart(newInventory)
+        }
         history.push('/database')
 
     }
