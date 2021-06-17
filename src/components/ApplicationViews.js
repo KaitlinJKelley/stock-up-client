@@ -1,6 +1,7 @@
 import React from "react"
 import { Route } from "react-router-dom"
 import { InventoryForm } from "./inventory/InventoryForm"
+import { InventoryList } from "./inventory/InventoryList"
 import { InventoryProvider } from "./inventory/InventoryProvider"
 import { DatabaseList } from "./parts/DatabaseList"
 import { DatabaseProvider } from "./parts/DatabaseProvider"
@@ -28,6 +29,9 @@ export const ApplicationViews = () => {
                                 <InventoryForm/>
                             </Route>
 
+                            <Route exact path='/inventory'>
+                                <InventoryList/>
+                            </Route>
                             <Route path='/inventory/new'>
                                 <InventoryForm/>
                             </Route>
