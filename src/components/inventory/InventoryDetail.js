@@ -8,7 +8,7 @@ import { InventoryContext } from './InventoryProvider'
 export const InventoryDetail = () => {
     const history = useHistory()
 
-    const {getInventoryById} = useContext(InventoryContext)
+    const {getInventoryById, updateInventory} = useContext(InventoryContext)
 
     const {partId} = useParams()
 
@@ -40,6 +40,8 @@ export const InventoryDetail = () => {
 
     const handleSave = event => {
         event.preventDefault()
+        updateInventory(part)
+        history.push('/inventory')
     }
 
     return(<>
