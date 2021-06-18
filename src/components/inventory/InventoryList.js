@@ -24,7 +24,7 @@ export const InventoryList = () => {
             <ListGroup.Item><Link to={{pathname: `/inventory/${part.id}`}}>{part.part.name}</Link></ListGroup.Item>
             <ListGroup.Item>{part.part.part_number}</ListGroup.Item>
             <ListGroup.Item>{part.part.vendor.name}</ListGroup.Item>
-            <ListGroup.Item>{part.in_inventory}</ListGroup.Item>
+            <ListGroup.Item>{part.in_inventory} {part.part.unit_of_measurement.label}</ListGroup.Item>
             <Button id={part.id} onClick={event => removeInventory(event.target.id)} variant='danger'>Remove</Button>
         </ListGroup>
         ))
