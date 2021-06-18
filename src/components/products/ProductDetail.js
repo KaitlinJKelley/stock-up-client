@@ -21,9 +21,9 @@ export const ProductDetail = () => {
         <h1>{product.name}</h1>
         <Button variant='warning' onClick={() => history.push(`/products/edit/${product.id}`)}>Edit Product</Button>
         <ListGroup horizontal key={product.id}>
-                <ListGroup.Item className="w-50" variant='dark'>Part Name</ListGroup.Item>
-                <ListGroup.Item className="w-50" variant='dark'>Amount Used</ListGroup.Item>
-            </ListGroup>
+            <ListGroup.Item className="w-50" variant='dark'>Part Name</ListGroup.Item>
+            <ListGroup.Item className="w-50" variant='dark'>Amount Used</ListGroup.Item>
+        </ListGroup>
         {product?.parts?.map(part =>
             <ListGroup horizontal key={part.id} >
                 <ListGroup.Item className="w-50" variant='light'><Link to={{pathname: `/inventory/${part.id}`}}>{part.name}</Link></ListGroup.Item>
