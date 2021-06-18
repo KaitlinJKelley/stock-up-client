@@ -4,6 +4,8 @@ import { InventoryDetail } from "./inventory/InventoryDetail"
 import { InventoryForm } from "./inventory/InventoryForm"
 import { InventoryList } from "./inventory/InventoryList"
 import { InventoryProvider } from "./inventory/InventoryProvider"
+import { OrderRecList } from "./orderRecs/OrderRecList"
+import { OrderRecProvider } from "./orderRecs/OrderRecProvider"
 import { DatabaseList } from "./parts/DatabaseList"
 import { DatabaseProvider } from "./parts/DatabaseProvider"
 import { ProductDetail } from "./products/ProductDetail"
@@ -22,36 +24,43 @@ export const ApplicationViews = () => {
                 <VendorProvider>
                     <InventoryProvider>
                         <ProductProvider>
+                            <OrderRecProvider>
 
-                            <Route exact path='/database'>
-                                <DatabaseList/>
-                            </Route>
-                            <Route path='/database/new'>
-                                <InventoryForm/>
-                            </Route>
+                                <Route exact path='/recs'>
+                                    <OrderRecList/>
+                                </Route>
 
-                            <Route exact path='/inventory'>
-                                <InventoryList/>
-                            </Route>
-                            <Route path='/inventory/new'>
-                                <InventoryForm/>
-                            </Route>
-                            <Route path='/inventory/:partId(\d+)'>
-                                <InventoryDetail/>
-                            </Route>
+                                <Route exact path='/database'>
+                                    <DatabaseList/>
+                                </Route>
+                                <Route path='/database/new'>
+                                    <InventoryForm/>
+                                </Route>
 
-                            <Route exact path='/products'>
-                                <ProductList/>
-                            </Route>
-                            <Route path='/products/new'>
-                                <ProductForm/>
-                            </Route>
-                            <Route path='/products/edit/:productId(\d+)'>
-                                <ProductForm/>
-                            </Route>
-                            <Route path='/products/:productId(\d+)'>
-                                <ProductDetail/>
-                            </Route>
+                                <Route exact path='/inventory'>
+                                    <InventoryList/>
+                                </Route>
+                                <Route path='/inventory/new'>
+                                    <InventoryForm/>
+                                </Route>
+                                <Route path='/inventory/:partId(\d+)'>
+                                    <InventoryDetail/>
+                                </Route>
+
+                                <Route exact path='/products'>
+                                    <ProductList/>
+                                </Route>
+                                <Route path='/products/new'>
+                                    <ProductForm/>
+                                </Route>
+                                <Route path='/products/edit/:productId(\d+)'>
+                                    <ProductForm/>
+                                </Route>
+                                <Route path='/products/:productId(\d+)'>
+                                    <ProductDetail/>
+                                </Route>
+
+                            </OrderRecProvider>
                         </ProductProvider>
                     </InventoryProvider>
                 </VendorProvider>
