@@ -4,6 +4,7 @@ import { InventoryDetail } from "./inventory/InventoryDetail"
 import { InventoryForm } from "./inventory/InventoryForm"
 import { InventoryList } from "./inventory/InventoryList"
 import { InventoryProvider } from "./inventory/InventoryProvider"
+import { OrderRecDetail } from "./orderRecs/OrderRecDetail"
 import { OrderRecList } from "./orderRecs/OrderRecList"
 import { OrderRecProvider } from "./orderRecs/OrderRecProvider"
 import { DatabaseList } from "./parts/DatabaseList"
@@ -28,6 +29,9 @@ export const ApplicationViews = () => {
 
                                 <Route exact path='/recs'>
                                     <OrderRecList/>
+                                </Route>
+                                <Route path='/recs/:recId(\d+)'>
+                                    <OrderRecDetail/>
                                 </Route>
 
                                 <Route exact path='/database'>
