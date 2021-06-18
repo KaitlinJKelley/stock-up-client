@@ -105,6 +105,8 @@ export const InventoryForm = () => {
                     <Form.Control readOnly placeholder={part.part_number}></Form.Control>
                     <Form.Label>Vendor:</Form.Label>
                     <Form.Control readOnly placeholder={part.vendor.name}></Form.Control>
+                    <Form.Label>Unit of Measurement:</Form.Label>
+                    <Form.Control readOnly placeholder={part.unit_of_measurement.label}></Form.Control>
                 </>
                  : 
                  <>
@@ -127,6 +129,11 @@ export const InventoryForm = () => {
                         <Form.Control onChange={handleNewVendorChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
                         </>
                     : ""}
+                    <Form.Label htmlFor='unitOfMeasurement'>Select unit of measurement: </Form.Label>
+                    <Form.Control as='select' name="unitOfMeasurement" value={`${newInventory.unitOfMeasurement}`} onChange={handleChange}>
+                    <option value='0'>Unit of Measurement</option>
+                    {unitsOfMeasurement.map(unit => <option key={unit.id} value={unit.id}>{unit.label}</option>)}
+                    </Form.Control>
                 </>
                  }
                 <Form.Group>
@@ -141,11 +148,6 @@ export const InventoryForm = () => {
                     <Form.Label htmlFor="cost">Cost per unit (USD) </Form.Label>
                     <Form.Control placeholder='0.00' onChange={handleChange} value={newInventory.cost} type="text" name="cost" className="form-control" required autoFocus ></Form.Control>
                 </Form.Group>
-                <Form.Label htmlFor='unitOfMeasurement'>Select unit of measurement: </Form.Label>
-                <Form.Control as='select' name="unitOfMeasurement" value={`${newInventory.unitOfMeasurement}`} onChange={handleChange}>
-                    <option value='0'>Unit of Measurement</option>
-                    {unitsOfMeasurement.map(unit => <option key={unit.id} value={unit.id}>{unit.label}</option>)}
-                </Form.Control>
             
             <Form.Group style={{
                 textAlign:"center"
