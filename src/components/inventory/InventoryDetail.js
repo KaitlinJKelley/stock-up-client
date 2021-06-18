@@ -11,17 +11,7 @@ export const InventoryDetail = () => {
 
     const {partId} = useParams()
 
-    const [part, setPart] = useState({
-        // part: {
-            "id": 0,
-        //     "part": {},
-        //     "cost": 0,
-        //     "unitOfMeasurement": "",
-        //     "inInventory": 0,
-        //     "products": [],
-        //     "minRequired": 0
-        // }
-    })
+    const [part, setPart] = useState({})
 
     useEffect(() => {
         getInventoryById(partId)
@@ -33,7 +23,8 @@ export const InventoryDetail = () => {
                 "unitOfMeasurement": res.part.unit_of_measurement.label,
                 "inInventory": res.in_inventory,
                 "products": res.products,
-                "minRequired": res.min_required
+                "minRequired": res.min_required,
+                "rec": res.recent_order_rec_part
             }
             setPart(part)
         })
@@ -48,6 +39,8 @@ export const InventoryDetail = () => {
         <ListGroup.Item>Min. Required: {part.minRequired}</ListGroup.Item>
         <ListGroup.Item>Unit of Measurement: {part.unitOfMeasurement}</ListGroup.Item>
         <ListGroup.Item>Cost: ${part.cost}</ListGroup.Item>
+        <ListGroup.Item>Last Ordered On: {part.rec?.date_ordered}</ListGroup.Item>
+        <ListGroup.Item>Last Received On: {part.rec?.date_received}</ListGroup.Item>
         <ListGroup horizontal key={part.id}>
                 <ListGroup.Item className="w-50" variant='dark'>Associated Products</ListGroup.Item>
             </ListGroup>
