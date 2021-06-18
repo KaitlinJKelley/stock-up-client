@@ -7,7 +7,7 @@ export const OrderRecProvider = (props) => {
     const [orderRecs, setOrderRecs] = useState([])
 
     const getOrderRecs = () => {
-        return fetch("http://localhost:8000/order_rec", {
+        return fetch("http://localhost:8000/order_recs", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
