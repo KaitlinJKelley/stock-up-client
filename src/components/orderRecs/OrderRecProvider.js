@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react"
+import { useHistory } from "react-router-dom"
 
 export const OrderRecContext = createContext()
 
@@ -36,8 +37,17 @@ export const OrderRecProvider = (props) => {
          })
     }
 
+    const getRecentOrderRec = () => {
+        return fetch(`http://localhost:8000/order_recs/recent`, {
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            }
+        })
+            .then(response => response.json())
+    }
+
     return (
-        <OrderRecContext.Provider value={{ orderRecs, getOrderRecs, getOrderRecById, updateOrderRec }}>
+        <OrderRecContext.Provider value={{ orderRecs, getOrderRecs, getOrderRecById, updateOrderRec, getRecentOrderRec }}>
             {props.children}
         </OrderRecContext.Provider>
     )
