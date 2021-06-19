@@ -52,7 +52,6 @@ export const NavBar = (props) => {
     </Navbar>
     <Modal show={show} onHide={handleClose} key={Math.random()}>
         <Modal.Header closeButton>
-        <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>Please close your open order recommendation before opening a new one</Modal.Body>
         <Modal.Footer>
