@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react' 
 import { OrderRecContext } from './OrderRecProvider'
 import ListGroup from 'react-bootstrap/ListGroup'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { Col } from 'react-bootstrap'
@@ -9,6 +9,9 @@ import { Col } from 'react-bootstrap'
 export const OrderRecDetail = () => {
     const {getOrderRecById, updateOrderRec} = useContext(OrderRecContext)
     const {recId} = useParams()
+
+    const history = useHistory()
+    const urlPath = history.location.pathname
     
     const [rec, setRec] = useState({})
     const [editClicked, setEditClicked] = useState(false)
@@ -48,20 +51,25 @@ export const OrderRecDetail = () => {
         <h1>Order Rec #{rec.id}</h1>
         <h2>Sales Dates: {rec.sales_start_date} - {rec.sales_end_date}</h2>
         <h3>Parts</h3>
-        <ListGroup horizontal key={rec.id}>
+        {urlPath === `/recs/${recId}` ? 
+        <>
+            <ListGroup horizontal key={rec.id}>
             <ListGroup.Item className="w-50" variant='dark'>Name</ListGroup.Item>
             <ListGroup.Item className="w-50" variant='dark'>Amount Ordered</ListGroup.Item>
             <ListGroup.Item className="w-50" variant='dark'>Ordered On</ListGroup.Item>
             <ListGroup.Item className="w-50" variant='dark'>Received On</ListGroup.Item>
-        </ListGroup>
-        {rec?.orderrecpart_set?.map(part =>
-            <ListGroup horizontal key={part.product_part.company_part.part.id} >
-                <ListGroup.Item className="w-50" variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
-                <ListGroup.Item className="w-50" variant='light'>{part.part_amount_ordered}</ListGroup.Item>
-                <ListGroup.Item className="w-50" variant='light'>{part.ordered_on}</ListGroup.Item>
-                <ListGroup.Item className="w-50" variant='light'>{part.received_on}</ListGroup.Item>
             </ListGroup>
-        )}
+            {rec?.orderrecpart_set?.map(part =>
+                <ListGroup horizontal key={part.product_part.company_part.part.id} >
+                    <ListGroup.Item className="w-50" variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
+                    <ListGroup.Item className="w-50" variant='light'>{part.part_amount_ordered}</ListGroup.Item>
+                    <ListGroup.Item className="w-50" variant='light'>{part.ordered_on}</ListGroup.Item>
+                    <ListGroup.Item className="w-50" variant='light'>{part.received_on}</ListGroup.Item>
+                </ListGroup>
+            )}
+        </>
+        // TODO: same thing as above except specific to recent orderrec info
+        : ""}
         <h3>Products</h3>
         {editClicked ? <Button onClick={event => {setEditClicked(false); handleSave(event)}} variant='success'>Save Changes</Button> : <Button onClick={() => setEditClicked(true)} variant='warning'>Edit Sales</Button>}
         <ListGroup horizontal>
