@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 import { Col } from 'react-bootstrap'
 
 export const OrderRecDetail = () => {
-    const {getOrderRecById} = useContext(OrderRecContext)
+    const {getOrderRecById, updateOrderRec} = useContext(OrderRecContext)
     const {recId} = useParams()
     
     const [rec, setRec] = useState({})
@@ -36,6 +36,14 @@ export const OrderRecDetail = () => {
         setSales(salesCopy)
     }
 
+    const handleSave = event => {
+        event.preventDefault()
+        updateOrderRec(sales, rec.id)
+        getOrderRecById(recId)
+            .then(setRec)
+        setEditClicked(false)
+    }
+
     return(<>
         <h1>Order Rec #{rec.id}</h1>
         <h2>Sales Dates: {rec.sales_start_date} - {rec.sales_end_date}</h2>
@@ -55,7 +63,7 @@ export const OrderRecDetail = () => {
             </ListGroup>
         )}
         <h3>Products</h3>
-        {editClicked ? <Button onClick={() => {setEditClicked(false)}} variant='success'>Save Changes</Button> : <Button onClick={() => setEditClicked(true)} variant='warning'>Edit Sales</Button>}
+        {editClicked ? <Button onClick={event => {setEditClicked(false); handleSave(event)}} variant='success'>Save Changes</Button> : <Button onClick={() => setEditClicked(true)} variant='warning'>Edit Sales</Button>}
         <ListGroup horizontal>
             <ListGroup.Item className="w-50" variant='dark'>Name</ListGroup.Item>
             <ListGroup.Item className="w-50" variant='dark'>Amount Sold</ListGroup.Item>

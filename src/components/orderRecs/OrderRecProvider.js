@@ -26,7 +26,7 @@ export const OrderRecProvider = (props) => {
     }
 
     const updateOrderRec = (salesList, order_rec_id) => {
-        return fetch(`http://localhost:8000/products/${order_rec_id}`, {
+        return fetch(`http://localhost:8000/order_recs/${order_rec_id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
