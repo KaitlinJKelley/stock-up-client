@@ -3,10 +3,14 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { ProductContext } from '../products/ProductProvider'
 import { Col } from 'react-bootstrap'
+import { OrderRecContext } from './OrderRecProvider'
+import { useHistory } from 'react-router-dom'
 
 export const OrderRecForm = () => {
+    const history = useHistory()
 
     const {getProducts, products} = useContext(ProductContext)
+    const {addNewOrderRec} = useContext(OrderRecContext)
 
     const [sales, setSales] = useState({
         "salesStartDate": "MM/DD/YYY",
@@ -26,7 +30,7 @@ export const OrderRecForm = () => {
                     {
                         "productId": products[product].id,
                         "name": products[product].name,
-                        "amountSold": ""
+                        "amountSold": 0
                     }
                 )
             }
@@ -79,7 +83,7 @@ export const OrderRecForm = () => {
                     </Form.Row>
                 </Form.Group>
             )}
-            <Button variant='success'>Calculate Order</Button>
+            <Button variant='success' onClick={() => {addNewOrderRec(sales); history.push(`/`)}}>Calculate Order</Button>
         </Form>
     </>) 
 }
