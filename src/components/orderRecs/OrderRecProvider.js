@@ -56,8 +56,21 @@ export const OrderRecProvider = (props) => {
          })
     }
 
+    const changeStatus = change => {
+        debugger
+        return fetch("http://localhost:8000/order_recs/change_status", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            },
+            body: JSON.stringify(change)
+         })
+    }
+
     return (
-        <OrderRecContext.Provider value={{ orderRecs, getOrderRecs, getOrderRecById, updateOrderRec, getRecentOrderRec, addNewOrderRec }}>
+        <OrderRecContext.Provider value={{ orderRecs, getOrderRecs, getOrderRecById, updateOrderRec, 
+                                            getRecentOrderRec, addNewOrderRec, changeStatus }}>
             {props.children}
         </OrderRecContext.Provider>
     )
