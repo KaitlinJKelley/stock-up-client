@@ -46,8 +46,19 @@ export const OrderRecProvider = (props) => {
             .then(response => response.json())
     }
 
+    const addNewOrderRec = orderRec => {
+        return fetch("http://localhost:8000/order_recs", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("lu_token")}`
+            },
+            body: JSON.stringify(orderRec)
+         })
+    }
+
     return (
-        <OrderRecContext.Provider value={{ orderRecs, getOrderRecs, getOrderRecById, updateOrderRec, getRecentOrderRec }}>
+        <OrderRecContext.Provider value={{ orderRecs, getOrderRecs, getOrderRecById, updateOrderRec, getRecentOrderRec, addNewOrderRec }}>
             {props.children}
         </OrderRecContext.Provider>
     )
