@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Route } from "react-router-dom"
 import { InventoryDetail } from "./inventory/InventoryDetail"
 import { InventoryForm } from "./inventory/InventoryForm"
 import { InventoryList } from "./inventory/InventoryList"
 import { InventoryProvider } from "./inventory/InventoryProvider"
+import { Home } from "./orderRecs/Home"
 import { OrderRecDetail } from "./orderRecs/OrderRecDetail"
 import { OrderRecList } from "./orderRecs/OrderRecList"
 import { OrderRecProvider } from "./orderRecs/OrderRecProvider"
@@ -32,6 +33,12 @@ export const ApplicationViews = () => {
                                 </Route>
                                 <Route path='/recs/:recId(\d+)'>
                                     <OrderRecDetail/>
+                                </Route>
+                                <Route path='/recent/:recId(\d+)'>
+                                    <OrderRecDetail/>
+                                </Route>
+                                <Route exact path='/'>
+                                    <Home />
                                 </Route>
 
                                 <Route exact path='/database'>
