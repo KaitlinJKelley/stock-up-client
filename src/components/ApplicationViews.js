@@ -7,7 +7,6 @@ import { Home } from "./orderRecs/Home"
 import { OrderRecDetail } from "./orderRecs/OrderRecDetail"
 import { OrderRecForm } from "./orderRecs/OrderRecForm"
 import { OrderRecList } from "./orderRecs/OrderRecList"
-import { OrderRecProvider } from "./orderRecs/OrderRecProvider"
 import { DatabaseList } from "./parts/DatabaseList"
 import { DatabaseProvider } from "./parts/DatabaseProvider"
 import { ProductDetail } from "./products/ProductDetail"
@@ -26,7 +25,6 @@ export const ApplicationViews = () => {
                 <VendorProvider>
                     <InventoryProvider>
                         <ProductProvider>
-                            <OrderRecProvider>
 
                                 <Route exact path='/'>
                                     <Home />
@@ -74,7 +72,6 @@ export const ApplicationViews = () => {
                                     <ProductDetail/>
                                 </Route>
 
-                            </OrderRecProvider>
                         </ProductProvider>
                     </InventoryProvider>
                 </VendorProvider>
