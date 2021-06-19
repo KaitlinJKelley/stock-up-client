@@ -19,14 +19,14 @@ export const NavBar = (props) => {
   const newOrderRecAllowed = () => {
     getRecentOrderRec()
     .then(res => {
-      if (res.date_received) {
-        history.push('/recs/new')
+      for (let i=0; i < res.orderrecpart_set.length; i++) {
+        if (res.orderrecpart_set[i].date_received === null) {
+          setShow(true)
+          return(<></>)
+        }
       }
-      else {
-        setShow(true)
-      }
+      history.push('/recs/new')
     })
-
   }
 
    return ( 
