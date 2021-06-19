@@ -5,6 +5,7 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import { Col } from 'react-bootstrap'
+import Modal from 'react-bootstrap/Modal'
 
 export const OrderRecDetail = () => {
     const {getOrderRecById, updateOrderRec} = useContext(OrderRecContext)
@@ -16,6 +17,9 @@ export const OrderRecDetail = () => {
     const [rec, setRec] = useState({})
     const [editClicked, setEditClicked] = useState(false)
     const [sales, setSales] = useState([])
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
 
     useEffect(() => {
         getOrderRecById(recId)
@@ -45,6 +49,12 @@ export const OrderRecDetail = () => {
         getOrderRecById(recId)
             .then(setRec)
         setEditClicked(false)
+    }
+    let change = {}
+    const handleStatusChange = event => {
+        change.recPartId = rec.id
+        change[event.target.id] = event.target.value
+        console.log(change)
     }
 
     return(<>
@@ -77,16 +87,18 @@ export const OrderRecDetail = () => {
             <ListGroup.Item className='w-100' variant='dark'>Status</ListGroup.Item>
             </ListGroup>
             {rec?.orderrecpart_set?.map(part =>
+            <>
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
                     <ListGroup.Item className='w-100' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
                     <ListGroup.Item className='w-100' variant='light'>{part.part_amount_to_order} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     <ListGroup.Item className='w-100' variant='light'>{part.product_part.company_part.in_inventory} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     {part.date_received == null ? 
                         // If date_received is null the user either needs to mark ordered or received
-                        part.date_ordered == null ? <Button>Ordered</Button> : <Button>Received</Button> : 
-                        // If received wasn't isn't null, then there's nothing else to do for this part
+                        part.date_ordered == null ? <Button onClick={() => setShow(true)}>Mark Ordered</Button> : <Button onClick={() => setShow(true)}>Mark Received</Button> : 
+                        // If received isn't null, then there's nothing else to do for this part
                         <ListGroup.Item className='w-100' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>}
                 </ListGroup>
+            </>
             )}
         </>
         }
@@ -119,5 +131,31 @@ export const OrderRecDetail = () => {
             )}
             </>
         }
+        <Modal show={show} onHide={handleClose} key={Math.random()}>
+            <Modal.Header closeButton>
+            </Modal.Header>
+            {rec.date_ordered ? 
+                <>
+                    <Form.Label type='text'>Date Received</Form.Label>
+                    <Form.Control id='dateReceived' type='date' value={change.dateReceived && change.dateReceived} onChange={handleStatusChange}></Form.Control>
+                </> 
+                : 
+                <>
+                    <Form.Label type='text'>Date Ordered</Form.Label>
+                    <Form.Control id='dateOrdered' type='date' value={change.dateOrdered && change.dateOrdered} onChange={handleStatusChange}></Form.Control>
+                    <Form.Label type='text'>Amount Ordered</Form.Label>
+                    <Form.Control id='amountOrdered' value={change.amountOrdered && change.amountOrdered} onChange={handleStatusChange}></Form.Control>
+                </>}
+            <Modal.Footer>
+            <Button variant="secondary" 
+                onClick={evt => {
+                    evt.preventDefault()
+                    handleSave()
+                }}
+            >
+                Save
+            </Button>
+            </Modal.Footer>
+        </Modal>
     </>)
 }
