@@ -17,15 +17,32 @@ export const OrderRecDetail = () => {
     const [rec, setRec] = useState({})
     const [editClicked, setEditClicked] = useState(false)
     const [sales, setSales] = useState([])
-    const [show, setShow] = useState(false)
+    const [showOrdered, setShowOrdered] = useState(false)
+    const [showReceived, setShowReceived] = useState(false)
     const [orderRecPartId, setOrderRecPartId] = useState(0)
 
     const handleClose = () => {
-        setShow(false)
+        setShowOrdered(false)
+        setShowReceived(false)
+    }
+
+    const handleShow = event => {
+        if (event.target.id === 'markOrdered') {
+            setShowOrdered(true)
+        }
+        else {
+            setShowReceived(true)
+        }
+    }
+
+
+    useEffect(() => {
+        if (showOrdered === false & showReceived === false) {
         // Get the updated order rec
         getOrderRecById(recId)
-        .then(setRec)
-    };
+            .then(setRec)
+        }
+    }, [showOrdered, showReceived])
 
     useEffect(() => {
         getOrderRecById(recId)
@@ -68,24 +85,24 @@ export const OrderRecDetail = () => {
 
 
     return(<>
-        <h1>Order Rec #{rec.id}</h1>
+        <h1>Order Report #{rec.id}</h1>
         <h2>Sales Dates: {rec.sales_start_date} - {rec.sales_end_date}</h2>
         <h3>Parts</h3>
         {/* url path when a user clicks a part from InventoryList */}
         {urlPath === `/recs/${recId}` ? 
         <>
             <ListGroup horizontal key={rec.id}>
-            <ListGroup.Item className="w-50" variant='dark'>Name</ListGroup.Item>
-            <ListGroup.Item className="w-50" variant='dark'>Amount Ordered</ListGroup.Item>
-            <ListGroup.Item className="w-50" variant='dark'>Ordered On</ListGroup.Item>
-            <ListGroup.Item className="w-50" variant='dark'>Received On</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Name</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Amount Ordered</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Ordered On</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Received On</ListGroup.Item>
             </ListGroup>
             {rec?.orderrecpart_set?.map(part =>
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
-                    <ListGroup.Item className="w-50" variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
-                    <ListGroup.Item className="w-50" variant='light'>{part.part_amount_ordered}</ListGroup.Item>
-                    <ListGroup.Item className="w-50" variant='light'>{part.ordered_on}</ListGroup.Item>
-                    <ListGroup.Item className="w-50" variant='light'>{part.received_on}</ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.part_amount_ordered}</ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.date_ordered}</ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.date_received}</ListGroup.Item>
                 </ListGroup>
             )}
         </>
@@ -93,61 +110,78 @@ export const OrderRecDetail = () => {
         <>
             {/* From url /recent/n, meaning the user is viewing their most recent, potentially open rec */}
             <ListGroup horizontal key={rec.id}>
-            <ListGroup.Item className='w-100' variant='dark'>Name</ListGroup.Item>
-            <ListGroup.Item className='w-100' variant='dark'>Order Rec</ListGroup.Item>
-            <ListGroup.Item className='w-100' variant='dark'>In Stock</ListGroup.Item>
-            <ListGroup.Item className='w-100' variant='dark'>Status</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Name</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Order Rec</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Amount Ordered</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>In Stock</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Status</ListGroup.Item>
             </ListGroup>
             {rec?.orderrecpart_set?.map(part =>
             <>
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
-                    <ListGroup.Item className='w-100' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
-                    <ListGroup.Item className='w-100' variant='light'>{part.part_amount_to_order} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
-                    <ListGroup.Item className='w-100' variant='light'>{part.product_part.company_part.in_inventory} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.part_amount_to_order} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.part_amount_ordered} {part.part_amount_ordered && part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.product_part.company_part.in_inventory} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     {part.date_received === null ? 
                         // If date_received is null the user either needs to mark ordered or received
-                        part.date_ordered === null ? <Button onClick={() => {setShow(true); setOrderRecPartId(part.id)}}>Mark Ordered</Button> : <Button onClick={() => {setShow(true); setOrderRecPartId(part.id)}}>Mark Received</Button> : 
+                        part.date_ordered === null ? <Button id='markOrdered' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Ordered</Button> : <Button id='markReceived' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Received</Button> : 
                         // If received isn't null, then there's nothing else to do for this part
-                        <ListGroup.Item className='w-100' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>}
+                        <ListGroup.Item className='w-50' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>}
                     
-                    <Modal show={show} onHide={handleClose} key={part.id}>
-                        <Modal.Header closeButton>
-                        </Modal.Header>
-                        {part.date_ordered ? 
-                            <>
-                                <Form.Label type='text'>Date Received</Form.Label>
-                                <Form.Control id='dateReceived' type='date' value={change.dateReceived && change.dateReceived} onChange={handleStatusChange}></Form.Control>
-                            </> 
-                            : 
-                            <>
-                                <Form.Label type='text'>Date Ordered</Form.Label>
-                                <Form.Control id='dateOrdered' type='date' value={change.dateOrdered && change.dateOrdered} onChange={handleStatusChange}></Form.Control>
-                                <Form.Label type='text'>Amount Ordered</Form.Label>
-                                <Form.Control id='amountOrdered' value={change.amountOrdered && change.amountOrdered} onChange={handleStatusChange}></Form.Control>
-                            </>}
-                        <Modal.Footer>
-                        <Button variant="secondary" 
-                            onClick={evt => {
-                                evt.preventDefault()
-                                changeStatus(change)
-                                .then(() => change={})
-                                handleClose()
-                            }}
-                        >
-                            Save
-                        </Button>
-                        </Modal.Footer>
-                    </Modal>
                 </ListGroup>
             </>
             )}
+            <Modal show={showOrdered} onHide={handleClose} id='ordered'>
+                <Modal.Header closeButton>
+                </Modal.Header>
+                    <>
+                        <Form.Label type='text'>Date Ordered</Form.Label>
+                        <Form.Control id='dateOrdered' type='date' value={change.dateOrdered && change.dateOrdered} onChange={handleStatusChange}></Form.Control>
+                        <Form.Label type='text'>Amount Ordered</Form.Label>
+                        <Form.Control id='amountOrdered' value={change.amountOrdered && change.amountOrdered} onChange={handleStatusChange}></Form.Control>
+                    </>
+                <Modal.Footer>
+                <Button variant="secondary" 
+                    onClick={evt => {
+                        evt.preventDefault()
+                        changeStatus(change)
+                        .then(() => change={})
+                        handleClose()
+                    }}
+                >
+                    Save
+                </Button>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={showReceived} onHide={handleClose} id='received'>
+                <Modal.Header closeButton>
+                </Modal.Header>
+                    <>
+                        <Form.Label type='text'>Date Received</Form.Label>
+                        <Form.Control id='dateReceived' type='date' value={change.dateReceived && change.dateReceived} onChange={handleStatusChange}></Form.Control>
+                    </> 
+    
+                <Modal.Footer>
+                <Button variant="secondary" 
+                    onClick={evt => {
+                        evt.preventDefault()
+                        changeStatus(change)
+                        .then(() => change={})
+                        handleClose()
+                    }}
+                >
+                    Save
+                </Button>
+                </Modal.Footer>
+            </Modal>
         </>
         }
         <h3>Products</h3>
         {editClicked ? <Button onClick={event => {setEditClicked(false); handleSave(event)}} variant='success'>Save Changes</Button> : <Button onClick={() => setEditClicked(true)} variant='warning'>Edit Sales</Button>}
         <ListGroup horizontal>
-            <ListGroup.Item className='w-100' variant='dark'>Name</ListGroup.Item>
-            <ListGroup.Item className='w-100' variant='dark'>Amount Sold</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Name</ListGroup.Item>
+            <ListGroup.Item className='w-50' variant='dark'>Amount Sold</ListGroup.Item>
         </ListGroup>
         {editClicked ? 
             <>
@@ -166,8 +200,8 @@ export const OrderRecDetail = () => {
             <>
                 {rec?.products?.map(product =>
                 <ListGroup horizontal key={product.id} >
-                    <ListGroup.Item className="w-50" variant='light'><Link to={{pathname: `/products/${product.id}`}}>{product.name}</Link></ListGroup.Item>
-                    <ListGroup.Item className="w-50" variant='light'>{product.amount_sold}</ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/products/${product.id}`}}>{product.name}</Link></ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{product.amount_sold}</ListGroup.Item>
                 </ListGroup>
             )}
             </>

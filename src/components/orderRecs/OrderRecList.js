@@ -15,7 +15,7 @@ export const OrderRecList = () => {
     }, [])
     console.log(orderRecs)
     return(<>
-        <h1>Order Recommendation Reports</h1>
+        <h1>Order Reports</h1>
         <div className='flex'>
             {orderRecs.map(rec => 
             <Card key={rec.id} style={{ maxWidth: '25rem', margin: '2%' }}>
