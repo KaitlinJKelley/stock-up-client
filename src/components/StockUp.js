@@ -4,7 +4,7 @@ import { ApplicationViews } from "./ApplicationViews"
 import { Login } from "./auth/Login"
 import { OrderRecProvider } from "./orderRecs/OrderRecProvider"
 import { NavBar } from "./nav/NavBar"
-// import { Register } from "./auth/Register"
+import { Register } from "./auth/Register"
 
 export const StockUp = () => (
     <>
@@ -33,7 +33,7 @@ export const StockUp = () => (
             if (localStorage.getItem("lu_token")) {
                 return <Redirect to="/" />
             } else {
-                // return <Register />
+                return <Register />
                 return("")
             }
         }} />
