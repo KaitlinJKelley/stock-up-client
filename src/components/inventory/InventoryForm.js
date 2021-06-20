@@ -27,6 +27,7 @@ export const InventoryForm = () => {
     
     const [partExists, setPartExists] = useState(false)
     const [addNewVendorClicked, setAddNewVendorClicked] = useState(false)
+    const [addNewUOMClicked, setAddNewUOMClicked] = useState(false)
     // Ternary adds needed ids to state variable that are auto filled on form
     const [newInventory, setNewInventory] = useState({
         "name": "",
@@ -41,7 +42,7 @@ export const InventoryForm = () => {
     })
 
     useEffect(() => {
-        // For dropdownsa
+        // For dropdowns
         getUnitsOfMeasurement()
         getVendors()
     }, [])
@@ -62,16 +63,25 @@ export const InventoryForm = () => {
             checkPart(partToCheck)
             .then(res => setPartExists(res.exists))
         }
+        if (newInventory.unitOfMeasurement === "[Add New]") {
+            setAddNewUOMClicked(true)
+            setPartExists(false)
+        }
     }, [newInventory])
 
     useEffect(() => {
-        // Resets vendor field after user clicks Add New
+        // Resets vendor field after user clicks Add New so Add New doesn't appear in input field
+        const newInventoryCopy = { ...newInventory }
+
         if (newInventory.vendor === "[Add New]") {
-            const newInventoryCopy = { ...newInventory }
             newInventoryCopy.vendor = ""
-            setNewInventory(newInventoryCopy)
         }
-    }, [addNewVendorClicked]) 
+        else if (newInventory.unitOfMeasurement === "[Add New]") {
+            newInventoryCopy.unitOfMeasurement = ""
+        }
+
+        setNewInventory(newInventoryCopy)
+    }, [addNewVendorClicked, addNewUOMClicked]) 
 
     const handleChange = event => {
         const newInventoryCopy = { ...newInventory }
@@ -81,9 +91,12 @@ export const InventoryForm = () => {
             if (newInventory.vendorWebsite === "") {
                 setAddNewVendorClicked(false)
             }
+            if (event.target.name === 'unitOfMeasurement') {
+                setAddNewUOMClicked(false)
+            }
     }
 
-    const handleNewVendorChange = event => {
+    const handleNewChange = event => {
         const newInventoryCopy = { ...newInventory }
         newInventoryCopy[event.target.name] = event.target.value
         setNewInventory(newInventoryCopy)
@@ -132,16 +145,23 @@ export const InventoryForm = () => {
                     {addNewVendorClicked & partExists === false ? 
                         <>
                         <Form.Label htmlFor="vendor">New Vendor Name:</Form.Label>
-                        <Form.Control onChange={handleNewVendorChange} value={newInventory.vendor} type="text" name="vendor" className="form-control" required autoFocus></Form.Control>
+                        <Form.Control onChange={handleNewChange} value={newInventory.vendor} type="text" name="vendor" className="form-control" required autoFocus></Form.Control>
                         <Form.Label htmlFor="vendorWebsite">New Vendor Website:</Form.Label>
-                        <Form.Control onChange={handleNewVendorChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
+                        <Form.Control onChange={handleNewChange} value={newInventory.vendorWebsite} type="text" name="vendorWebsite" className="form-control" required autoFocus></Form.Control>
                         </>
                     : ""}
                     <Form.Label htmlFor='unitOfMeasurement'>Select unit of measurement: </Form.Label>
                     <Form.Control as='select' name="unitOfMeasurement" value={`${newInventory.unitOfMeasurement}`} onChange={handleChange}>
                     <option value='0'>Unit of Measurement</option>
                     {unitsOfMeasurement.map(unit => <option key={unit.id} value={unit.id}>{unit.label}</option>)}
+                    <option value="[Add New]">[Add New]</option>
                     </Form.Control>
+                    {addNewUOMClicked & partExists === false ? 
+                        <>
+                        <Form.Label htmlFor="vendor">New Unit of Measurement:</Form.Label>
+                        <Form.Control onChange={handleNewChange} value={newInventory.unitOfMeasurement} type="text" name="unitOfMeasurement" className="form-control" required autoFocus></Form.Control>
+                        </>
+                    : ""}
                 </>
                  }
                 <Form.Group>
