@@ -19,13 +19,15 @@ export const InventoryForm = () => {
     const location = useLocation()
     let part = null
     if (urlPath === "/inventory/new") {
+        // no params on /new url
+        // used when adding an existing part to inventory
         const {passPart} = location.state
         part = passPart
     }
     
     const [partExists, setPartExists] = useState(false)
     const [addNewVendorClicked, setAddNewVendorClicked] = useState(false)
-
+    // Ternary adds needed ids to state variable that are auto filled on form
     const [newInventory, setNewInventory] = useState({
         "name": "",
         "partNumber": "",
@@ -39,11 +41,14 @@ export const InventoryForm = () => {
     })
 
     useEffect(() => {
+        // For dropdownsa
         getUnitsOfMeasurement()
         getVendors()
     }, [])
 
     useEffect(() => {
+        // Differentiates between adding a new vendor vs selecting a vendor
+        // prevents checkPart from running when it shouldn't
         if (newInventory.vendor === "[Add New]") {
             setAddNewVendorClicked(true)
             setPartExists(false)
@@ -57,10 +62,10 @@ export const InventoryForm = () => {
             checkPart(partToCheck)
             .then(res => setPartExists(res.exists))
         }
-        
     }, [newInventory])
 
     useEffect(() => {
+        // Resets vendor field after user clicks Add New
         if (newInventory.vendor === "[Add New]") {
             const newInventoryCopy = { ...newInventory }
             newInventoryCopy.vendor = ""
@@ -69,9 +74,10 @@ export const InventoryForm = () => {
     }, [addNewVendorClicked]) 
 
     const handleChange = event => {
-            const newInventoryCopy = { ...newInventory }
-            newInventoryCopy[event.target.name] = event.target.value
-            setNewInventory(newInventoryCopy)
+        const newInventoryCopy = { ...newInventory }
+        newInventoryCopy[event.target.name] = event.target.value
+        setNewInventory(newInventoryCopy)
+            // Closes new vendor info when a user starts addressing a different field
             if (newInventory.vendorWebsite === "") {
                 setAddNewVendorClicked(false)
             }
@@ -84,10 +90,12 @@ export const InventoryForm = () => {
     }
     const handleSave = event => {
         event.preventDefault()
+        // Adds existing part to user's inventory
         if (urlPath === "/inventory/new") {
             addToInventory(newInventory)
         }
         else {
+            // Adds part to general database AND user's inventory
             addNewDatabasePart(newInventory)
         }
         history.push('/database')

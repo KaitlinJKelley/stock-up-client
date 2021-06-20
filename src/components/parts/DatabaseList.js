@@ -23,6 +23,7 @@ export const DatabaseList = () => {
             <ListGroup.Item>{part.name}</ListGroup.Item>
             <ListGroup.Item>{part.part_number}</ListGroup.Item>
             <ListGroup.Item>{part.vendor.name}</ListGroup.Item>
+            {/* Passes part object to InventoryForm */}
             <Link to={{pathname: '/inventory/new', state: {passPart: part}}} variant='success'>Add to inventory</Link>
         </ListGroup>
         ))

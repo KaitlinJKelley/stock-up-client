@@ -25,6 +25,7 @@ export const OrderRecForm = () => {
     useEffect(() => {
         let salesCopy = {...sales}
         salesCopy.sales = []
+            // Puts needed data correctly named on sales array on state variable
             for (let product in products) {
                 salesCopy.sales.push(
                     {
