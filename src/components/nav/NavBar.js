@@ -19,6 +19,11 @@ export const NavBar = (props) => {
   const newOrderRecAllowed = () => {
     getRecentOrderRec()
     .then(res => {
+      // If there are no existing order recs for this company
+      if (res.error === 'no order rec found') {
+        history.push('/recs/new')
+        return(<></>)
+      }
       // If any part doesn't have a received date, break out of loop and display message
       for (let i=0; i < res.orderrecpart_set.length; i++) {
         if (res.orderrecpart_set[i].date_received === null) {
