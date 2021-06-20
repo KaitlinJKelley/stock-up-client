@@ -34,11 +34,7 @@ export const ProductList = () => {
                 <Button variant="secondary" 
                     onClick={evt => {
                         evt.preventDefault()
-    
-                        // Create the event
                         deleteProduct(product.id)
-    
-                        // Once event is created, redirect user to event list
                         handleClose()
                     }}
                 >
@@ -49,6 +45,7 @@ export const ProductList = () => {
                 </Button>
                 </Modal.Footer>
             </Modal>
+            
             <ListGroup horizontal key={product.id}>
                 <ListGroup.Item variant='light'><Link to={{pathname: `/products/${product.id}`}}>{product.name}</Link></ListGroup.Item>
                 <Button variant='danger' onClick={handleShow}>Delete</Button>

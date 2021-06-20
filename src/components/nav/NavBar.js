@@ -15,16 +15,18 @@ export const NavBar = (props) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-
+  // Makes sure most recent order rec is closed before the user can start a new one
   const newOrderRecAllowed = () => {
     getRecentOrderRec()
     .then(res => {
+      // If any part doesn't have a received date, break out of loop and display message
       for (let i=0; i < res.orderrecpart_set.length; i++) {
         if (res.orderrecpart_set[i].date_received === null) {
           setShow(true)
           return(<></>)
         }
       }
+      // Got through loop = all parts marked received; start new rec
       history.push('/recs/new')
     })
   }

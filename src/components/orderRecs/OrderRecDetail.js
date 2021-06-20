@@ -22,6 +22,7 @@ export const OrderRecDetail = () => {
 
     const handleClose = () => {
         setShow(false)
+        // Get the updated order rec
         getOrderRecById(recId)
         .then(setRec)
     };
@@ -32,6 +33,7 @@ export const OrderRecDetail = () => {
     }, [])
 
     useEffect(() => {
+        // sets state variable with only necessary data from order rec info to edit
         for (let product in rec.products) {
             rec.products[product] = {
                 "productId": rec.products[product].id,
@@ -44,6 +46,7 @@ export const OrderRecDetail = () => {
 
     const handleChange = event => {
         let salesCopy = [...sales]
+        // Goes to the index of the object in the array
         salesCopy[parseInt(event.target.id)].amountSold = event.target.value
         setSales(salesCopy)
     }
@@ -51,13 +54,14 @@ export const OrderRecDetail = () => {
     const handleSave = event => {
         event.preventDefault()
         updateOrderRec(sales, rec.id)
+        // To get updated info
         getOrderRecById(recId)
             .then(setRec)
         setEditClicked(false)
     }
+    // Using uncontrolled variable prevents modal from re-rendering on every letter typed
     let change = {}
     const handleStatusChange = event => {
-        debugger
         change.recPartId = orderRecPartId
         change[event.target.id] = event.target.value
     }
@@ -67,6 +71,7 @@ export const OrderRecDetail = () => {
         <h1>Order Rec #{rec.id}</h1>
         <h2>Sales Dates: {rec.sales_start_date} - {rec.sales_end_date}</h2>
         <h3>Parts</h3>
+        {/* url path when a user clicks a part from InventoryList */}
         {urlPath === `/recs/${recId}` ? 
         <>
             <ListGroup horizontal key={rec.id}>
@@ -86,6 +91,7 @@ export const OrderRecDetail = () => {
         </>
         : 
         <>
+            {/* From url /recent/n, meaning the user is viewing their most recent, potentially open rec */}
             <ListGroup horizontal key={rec.id}>
             <ListGroup.Item className='w-100' variant='dark'>Name</ListGroup.Item>
             <ListGroup.Item className='w-100' variant='dark'>Order Rec</ListGroup.Item>
@@ -98,39 +104,40 @@ export const OrderRecDetail = () => {
                     <ListGroup.Item className='w-100' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
                     <ListGroup.Item className='w-100' variant='light'>{part.part_amount_to_order} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     <ListGroup.Item className='w-100' variant='light'>{part.product_part.company_part.in_inventory} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
-                    {part.date_received == null ? 
+                    {part.date_received === null ? 
                         // If date_received is null the user either needs to mark ordered or received
-                        part.date_ordered == null ? <Button onClick={() => {setShow(true); setOrderRecPartId(part.id)}}>Mark Ordered</Button> : <Button onClick={() => {setShow(true); setOrderRecPartId(part.id)}}>Mark Received</Button> : 
+                        part.date_ordered === null ? <Button onClick={() => {setShow(true); setOrderRecPartId(part.id)}}>Mark Ordered</Button> : <Button onClick={() => {setShow(true); setOrderRecPartId(part.id)}}>Mark Received</Button> : 
                         // If received isn't null, then there's nothing else to do for this part
                         <ListGroup.Item className='w-100' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>}
+                    
                     <Modal show={show} onHide={handleClose} key={part.id}>
-            <Modal.Header closeButton>
-            </Modal.Header>
-            {part.date_ordered ? 
-                <>
-                    <Form.Label type='text'>Date Received</Form.Label>
-                    <Form.Control id='dateReceived' type='date' value={change.dateReceived && change.dateReceived} onChange={handleStatusChange}></Form.Control>
-                </> 
-                : 
-                <>
-                    <Form.Label type='text'>Date Ordered</Form.Label>
-                    <Form.Control id='dateOrdered' type='date' value={change.dateOrdered && change.dateOrdered} onChange={handleStatusChange}></Form.Control>
-                    <Form.Label type='text'>Amount Ordered</Form.Label>
-                    <Form.Control id='amountOrdered' value={change.amountOrdered && change.amountOrdered} onChange={handleStatusChange}></Form.Control>
-                </>}
-            <Modal.Footer>
-            <Button variant="secondary" 
-                onClick={evt => {
-                    evt.preventDefault()
-                    changeStatus(change)
-                    .then(() => change={})
-                    handleClose()
-                }}
-            >
-                Save
-            </Button>
-            </Modal.Footer>
-        </Modal>
+                        <Modal.Header closeButton>
+                        </Modal.Header>
+                        {part.date_ordered ? 
+                            <>
+                                <Form.Label type='text'>Date Received</Form.Label>
+                                <Form.Control id='dateReceived' type='date' value={change.dateReceived && change.dateReceived} onChange={handleStatusChange}></Form.Control>
+                            </> 
+                            : 
+                            <>
+                                <Form.Label type='text'>Date Ordered</Form.Label>
+                                <Form.Control id='dateOrdered' type='date' value={change.dateOrdered && change.dateOrdered} onChange={handleStatusChange}></Form.Control>
+                                <Form.Label type='text'>Amount Ordered</Form.Label>
+                                <Form.Control id='amountOrdered' value={change.amountOrdered && change.amountOrdered} onChange={handleStatusChange}></Form.Control>
+                            </>}
+                        <Modal.Footer>
+                        <Button variant="secondary" 
+                            onClick={evt => {
+                                evt.preventDefault()
+                                changeStatus(change)
+                                .then(() => change={})
+                                handleClose()
+                            }}
+                        >
+                            Save
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </ListGroup>
             </>
             )}

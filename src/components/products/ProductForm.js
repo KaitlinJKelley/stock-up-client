@@ -26,6 +26,7 @@ export const ProductForm = () => {
         if (productId) {
             getProductById(productId)
             .then(res => {
+                // Puts correct data with correct names in array on state variable
                 for (let part in res.parts) {
                     parseInt(part)
                     res.parts[part] = {
@@ -43,6 +44,7 @@ export const ProductForm = () => {
     useEffect(() => {
         let options = []
         inventory.map(part => 
+        // Create options used in multiselect
            options.push({
                 "partId": part.id,
                 "name": `${part.part.name}, Measured in: ${part.part.unit_of_measurement.label}`
@@ -90,7 +92,10 @@ export const ProductForm = () => {
                                 placeholder='Product Name' required autoFocus  
                                 onChange={handleNameChange}></Form.Control> 
                 <Form.Label htmlFor='parts'></Form.Label>
-                {productId ? <Multiselect name="parts" selectedValues={product.parts} options={options} displayValue="name" onSelect={handleSelectChosen} onRemove={handleSelectChosen}></Multiselect> : <Multiselect name="parts" options={options} displayValue="name" onSelect={handleSelectChosen} onRemove={handleSelectChosen}></Multiselect>}
+                {productId ? 
+                    <Multiselect name="parts" selectedValues={product.parts} options={options} displayValue="name" onSelect={handleSelectChosen} onRemove={handleSelectChosen}></Multiselect> 
+                    : 
+                    <Multiselect name="parts" options={options} displayValue="name" onSelect={handleSelectChosen} onRemove={handleSelectChosen}></Multiselect>}
                 <Form.Label></Form.Label>
                 <ListGroup horizontal>
                     <Form.Label className='w-50' htmlFor='parts'>Parts</Form.Label>
