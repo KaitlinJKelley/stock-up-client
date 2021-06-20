@@ -22,7 +22,7 @@ export const ProductList = () => {
     return(<>
         <h1>Products</h1>
         
-        <Button variant='success'>Add New Product</Button>
+        <Button variant='success' onClick={() => history.push('/products/new')}>Add New Product</Button>
         {products.map(product => 
             <>
             <Modal show={show} onHide={handleClose} key={Math.random()}>
@@ -47,7 +47,7 @@ export const ProductList = () => {
             </Modal>
             
             <ListGroup horizontal key={product.id}>
-                <ListGroup.Item variant='light'><Link to={{pathname: `/products/${product.id}`}}>{product.name}</Link></ListGroup.Item>
+                <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/products/${product.id}`}}>{product.name}</Link></ListGroup.Item>
                 <Button variant='danger' onClick={handleShow}>Delete</Button>
             </ListGroup>
             </>

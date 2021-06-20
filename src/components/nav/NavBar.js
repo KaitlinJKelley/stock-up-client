@@ -44,7 +44,7 @@ export const NavBar = (props) => {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
           <Nav.Link onClick={newOrderRecAllowed}>Start New Order Rec</Nav.Link>
-          <Nav.Link href="/recs">Old Order Recs</Nav.Link>
+          <Nav.Link href="/recs">Previous Orders</Nav.Link>
           <NavDropdown title="Parts" id="collapsible-nav-dropdown">
             <NavDropdown.Item href="/inventory">My Inventory</NavDropdown.Item>
             <NavDropdown.Item href="/database">Add Part to Inventory</NavDropdown.Item>

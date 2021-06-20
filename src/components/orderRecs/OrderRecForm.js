@@ -84,7 +84,7 @@ export const OrderRecForm = () => {
                     </Form.Row>
                 </Form.Group>
             )}
-            <Button variant='success' onClick={() => {addNewOrderRec(sales); history.push(`/`)}}>Calculate Order</Button>
+            <Button variant='success' onClick={() => {addNewOrderRec(sales).then(() => history.push(`/`))}}>Calculate Order</Button>
         </Form>
     </>) 
 }
