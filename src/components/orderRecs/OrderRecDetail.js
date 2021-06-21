@@ -124,13 +124,17 @@ export const OrderRecDetail = () => {
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
                     <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.part_amount_to_order} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
-                    <ListGroup.Item className='w-50' variant='light'>{part.part_amount_ordered} {part.part_amount_ordered && part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.part_amount_ordered} {part.part_amount_ordered === 0 && part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.product_part.company_part.in_inventory} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     {part.date_received === null ? 
                         // If date_received is null the user either needs to mark ordered or received
-                        part.date_ordered === null ? <Button id='markOrdered' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Ordered</Button> : <Button id='markReceived' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Received</Button> : 
+                        part.date_ordered === null ? <Button id='markOrdered' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Ordered</Button> : <Button id='markReceived' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Received</Button> 
+                        : 
                         // If received isn't null, then there's nothing else to do for this part
-                        <ListGroup.Item className='w-50' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>}
+                        part.part_amount_ordered > 0 ? <ListGroup.Item className='w-50' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>
+                        : <ListGroup.Item className='w-50' variant='light'>No order recommended</ListGroup.Item>
+                        
+                    }
                     
                 </ListGroup>
             </>
