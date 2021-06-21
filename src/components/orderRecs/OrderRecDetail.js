@@ -101,12 +101,15 @@ export const OrderRecDetail = () => {
             <ListGroup.Item className='w-50' variant='dark'>Received On</ListGroup.Item>
             </ListGroup>
             {rec?.orderrecpart_set?.map(part =>
+                part.date_ordered !== '2000-01-01' ? 
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
                     <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.part_amount_ordered}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.date_ordered}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.date_received}</ListGroup.Item>
                 </ListGroup>
+                :
+                ""
             )}
         </>
         : 
@@ -120,6 +123,7 @@ export const OrderRecDetail = () => {
             <ListGroup.Item className='w-50' variant='dark'>Status</ListGroup.Item>
             </ListGroup>
             {rec?.orderrecpart_set?.map(part =>
+            part.date_ordered !== '2000-01-01' ? 
             <>
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
                     <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
@@ -131,13 +135,14 @@ export const OrderRecDetail = () => {
                         part.date_ordered === null ? <Button id='markOrdered' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Ordered</Button> : <Button id='markReceived' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Received</Button> 
                         : 
                         // If received isn't null, then there's nothing else to do for this part
-                        part.part_amount_ordered > 0 ? <ListGroup.Item className='w-50' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>
-                        : <ListGroup.Item className='w-50' variant='light'>No order recommended</ListGroup.Item>
+                        <ListGroup.Item className='w-50' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>
                         
                     }
                     
                 </ListGroup>
             </>
+            :
+            ""
             )}
             <Modal show={showOrdered} onHide={handleClose} id='ordered'>
                 <Modal.Header closeButton>
