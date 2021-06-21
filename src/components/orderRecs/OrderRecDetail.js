@@ -70,11 +70,14 @@ export const OrderRecDetail = () => {
 
     const handleSave = event => {
         event.preventDefault()
-        updateOrderRec(sales, rec.id)
-        // To get updated info
-        getOrderRecById(recId)
-            .then(setRec)
         setEditClicked(false)
+        updateOrderRec(sales, rec.id)
+        .then(() => {
+            // To get updated info
+            getOrderRecById(recId)
+                .then(setRec)
+        })
+        
     }
     // Using uncontrolled variable prevents modal from re-rendering on every letter typed
     let change = {}

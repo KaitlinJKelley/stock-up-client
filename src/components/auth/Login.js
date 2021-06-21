@@ -1,7 +1,9 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 
-export const Login = props => {
+export const Login = () => {
+    const history=useHistory()
+
     const email = React.createRef()
     const password = React.createRef()
     const invalidDialog = React.createRef()
@@ -24,7 +26,7 @@ export const Login = props => {
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
                     localStorage.setItem( "lu_token", res.token )
-                    props.history.push("/")
+                    history.push("/")
                 }
                 else {
                     invalidDialog.current.showModal()
