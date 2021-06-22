@@ -126,7 +126,7 @@ export const OrderRecDetail = () => {
             part.date_ordered !== '2000-01-01' ? 
             <>
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
-                    <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.part_amount_to_order} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.part_amount_ordered} {part.part_amount_ordered === 0 && part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.product_part.company_part.in_inventory} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
