@@ -6,7 +6,7 @@ StockUp allows a user to register their company, add parts to inventory, and add
 
 ---
 ![Client](https://img.shields.io/badge/Client%20Side-HTML%2C%20CSS%2C%20React%2C%20React--Bootstrap-blue)
-![Server](https://img.shields.io/badge/Server%20Side-Python%2FDjango-blue)
+![Server](https://img.shields.io/badge/Server%20Side-Python%2FDjango%2C%20Django--safedelete-blue)
 
 ## Features
 * User can register their company and personal info
@@ -34,17 +34,14 @@ StockUp allows a user to register their company, add parts to inventory, and add
 ---
 ## Background
 
-My previous employer, who runs a small business selling welding products, asked me to make a spreadsheet to tell him how much inventory to order based on the number of products sold. It sounded like the perfect task for an app to do. Monitoring inventory through the app instead of a spreasheet will hopefully eliminate unnecessary errors and make it easier for the business to scale their stock and track useful trends.  
+My previous employer, who runs a small business selling welding products, asked me to make a spreadsheet to tell him how much inventory to order based on the number of products sold. It sounded like the perfect task for an app to do. Monitoring inventory through the app instead of a spreasheet will hopefully eliminate unnecessary errors and make it easier for the business to scale and track useful trends.  
 
 ---
 
 ## Installation
 
-### Requirements
-
-### Instructions for Use
 1. Clone this repository to your machine
-3. Run server from the app [instructions](url to server repo)
+3. [Run the server](https://github.com/KaitlinJKelley/stock-up-server)
 3. Run `npm start` from the root directory to launch app
 
 ## Support
@@ -72,80 +69,66 @@ My previous employer, who runs a small business selling welding products, asked 
     * Add category to part 
     * Displayed by category with user's preferred category on top
     * search by name or part #
-* 
-* 
-* 
-* 
-*
-*
-*
-*
-*
-*
-*
-
-Products
-User can search products by name
-Product Detail
-Image displayed
-Add/Edit Form
-Image upload/edit
-Vendors
-Vendor List
-Display list of all vendors the user buys parts from
-User can search vendors by name
-Click on vendor name redirects to Vendor Detail
-Vendor Detail/Edit
-Initially only has vendor url
-User can add contact/sales rep info and login info
-User can edit any vendor info except url
-On mobile, click on Parts redirects to Parts List filtered by vendor (report?)
-Multiple User Types
-Admin
-Full CRUD on everything
-Promote/demote users
-add/inactivate/reactivate users
-Approve requested changes from general users
-View reports
-Decide which changes a general user can make independently, which should be approved, and which should not be accessible
-Can view all users and edit them
-General
-Can request changes on anything they have access to
-View access to products, parts inventory, and order recs
-Complete order recs (ordered/received)
-Will be allowed to complete order recs (mark parts as ordered/received)
-Upload images to parts and products
-Profile
-When registering, user can add
-Order schedule (how often they order)
-Category preference
-Company logo
-Displays company info, but only admin can see other users
-Change log tracks all changes made, employee who made the change, date changed, approver, and date approved
-Reports
-Weekly, Monthly, Quarterly, Yearly views
-Sales
-Total sales
-Individual product sales
-Parts
-Lead time
-Parts used per time frame
-Average order amount
-Cost over time
-Order Recs
-Avg time to close and order rec
+* Products
+    * Search by name
+    * Image upload/display/edit
+* Vendors
+    * List all vendors the company buys from
+        * Click on name redirects to vendor detail
+    * Search by name
+    * User can edit vendor to add:
+        * Sales rep name and contact info
+        * Login info for vendor site
+        * Vendor phone number and address
+    * Vendor detail will list all above items as well as list of parts the company buys from that vendor
+* Users
+    * Admin
+        * Full access to all app features 
+        * Promote/demote users to/from admin
+        * Activate/deactivate other employees 
+        * CRUD on general users
+        * Approve requested changes a general user makes
+        * View reports
+        * Indicate which CRUD features a general user can perform without approval
+        * View company profile in + other users and their info
+    * General 
+        * Full CRUD access wherever admin allows with or without approval, depending on administered permissions 
+        * Complete order recs
+            * Order Rec reports emailed to admin users
+        * Image upload/edit 
+        * can view company profile info
+* Profile 
+    * Add order schedule (how often the user orders) and category preference inputs to register form 
+    * Company logo image upload/edit at register 
+    * Change log tracks all changes made by any user and lists:
+        * employee who made the change
+        * date changed
+        * Note about why change was made
+        * approver (if applicable)
+        * date approved (if applicable)
+* Reports  
+    * Displayed in weekly, monthly, quarterly, or yearly view based on selection 
+    * Sales
+        * Total sales
+        * Sales by product
+    * Parts
+        * Lead time
+        * Part used per time frame
+        * Average order amount
+    * Order Recs
+        * Avg time to close an order rec
 
 ---
 ## Contributing
 
-The more the merrier! Please feel free to fork this repository and create a pull request with any changes or improvements you can think of. 
+Please feel free to fork this repository and create a pull request with any changes or improvements you can think of. 
 
 ---
 ### Authors & Acknowledgements
 
 Created by [Kaitlin Kelley](https://github.com/kjk1325).
 
-Supported by my amazing mentor [Jisie David](https://github.com/jisie) and team members at [Nashville Software School](https://nashvillesoftwareschool.com)
+Supported by lead [Hannah Hall](https://github.com/hannahhall) and team members at [Nashville Software School](https://nashvillesoftwareschool.com)
 
 ---
 
