@@ -32,6 +32,15 @@ StockUp allows a user to register their company, add parts to inventory, and add
     * When a part is removed from inventory or a product is deleted the data will still be available on the reports
 
 ---
+
+## ERD and Wireframe
+
+![StockUp ERD](./images/StockUpERD.png)
+
+[View in dbdiagram](https://dbdiagram.io/d/60d1fd81dd6a5971481a4678)
+
+[View Wirefram in Figma](https://www.figma.com/file/FiMs3Xa8e991LFxPXs3dbb/Stock-Up-(mobile)?node-id=0%3A1&viewport=711%2C330%2C0.12415296584367752)
+
 ## Background
 
 My previous employer, who runs a small business selling welding products, asked me to make a spreadsheet to tell him how much inventory to order based on the number of products sold. It sounded like the perfect task for an app to do. Monitoring inventory through the app instead of a spreasheet will hopefully eliminate unnecessary errors and make it easier for the business to scale and track useful trends.  
