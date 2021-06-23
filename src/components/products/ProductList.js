@@ -27,7 +27,6 @@ export const ProductList = () => {
             <>
             <Modal show={show} onHide={handleClose} key={Math.random()}>
                 <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>Are you sure you want to delete {product.name}?</Modal.Body>
                 <Modal.Footer>

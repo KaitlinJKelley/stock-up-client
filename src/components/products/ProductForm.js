@@ -21,6 +21,8 @@ export const ProductForm = () => {
         "parts": []
     })
 
+    console.log(product.parts)
+
     const [options, setOptions] = useState([])
 
     useEffect(() => {
@@ -42,7 +44,8 @@ export const ProductForm = () => {
                     let selectedValues = res.parts.map(part => {
                         return {
                             partId: part.partId,
-                            name: part.name
+                            name: part.name,
+                            amountUsed: part.amountUsed
                         }
                     })
                     setAdjustedSelection(selectedValues)
@@ -56,7 +59,8 @@ export const ProductForm = () => {
             // Create options used in multiselect 
             optionsArray.push({
                 "partId": part.id,
-                "name": `${part.part.name}, Measured in: ${part.part.unit_of_measurement.label}`
+                "name": `${part.part.name}, Measured in: ${part.part.unit_of_measurement.label}`,
+                "amountUsed": 0
             })
         )
         setOptions(optionsArray)
@@ -68,10 +72,6 @@ export const ProductForm = () => {
         setProduct(productCopy)
     }
 
-    const copiedOption = [{
-        name: "10oz tube of paint, Measured in: ounces",
-        partId: 12
-    }]
     const handleSelectChosen = selection => {
         let productCopy = { ...product }
         productCopy.parts = selection

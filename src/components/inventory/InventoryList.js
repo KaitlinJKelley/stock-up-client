@@ -34,7 +34,6 @@ export const InventoryList = () => {
                 </ListGroup>
                 <Modal show={show} onHide={handleClose} key={Math.random()}>
                     <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>Deleting this part will remove from all of your products, but it will still be on your reports</Modal.Body>
                     <Modal.Footer>
