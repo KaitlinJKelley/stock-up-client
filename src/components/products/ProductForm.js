@@ -84,12 +84,12 @@ export const ProductForm = () => {
         setProduct(productCopy)
     }
 
-    const handleAdd = () => {
+    const handleAdd = event => {
         addNewProduct(product)
         history.push('/products')
     }
 
-    const handleSave = () => {
+    const handleSave = event => {
         updateProduct(product)
         history.push('/products')
     }
@@ -131,7 +131,7 @@ export const ProductForm = () => {
                     textAlign: "center"
                 }}>
                 </Form.Group>
-                {productId ? <Button variant='success' onClick={handleSave}>Save Changes</Button> : <Button variant='success' type="submit" onClick={handleAdd}>Add Product</Button>}
+                {productId ? <Button variant='success' onClick={handleSave}>Save Changes</Button> : <Button variant='success' onClick={handleAdd}>Add Product</Button>}
             </Form>
         </>
     </>)
