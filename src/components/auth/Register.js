@@ -29,7 +29,7 @@ export const Register = () => {
                 "employeeId": employeeId.current.value
             }
 
-            return fetch("http://127.0.0.1:8000/register", {
+            return fetch("https://stockupapi.herokuapp.com/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
