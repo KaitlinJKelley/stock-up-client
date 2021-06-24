@@ -1,4 +1,4 @@
-# StockUp
+# StockUp Client
 
 ## Description
 
@@ -6,7 +6,6 @@ StockUp allows a user to register their company, add parts to inventory, and add
 
 ---
 ![Client](https://img.shields.io/badge/Client%20Side-HTML%2C%20CSS%2C%20React%2C%20React--Bootstrap-blue)
-![Server](https://img.shields.io/badge/Server%20Side-Python%2FDjango%2C%20Django--safedelete-blue)
 
 ## Features
 * User can register their company and personal info
