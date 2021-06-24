@@ -7,7 +7,7 @@ export const ProductProvider = (props) => {
     const [products, setProducts] = useState([])
 
     const getProducts = () => {
-        return fetch("http://localhost:8000/products", {
+        return fetch("https://stockupapi.herokuapp.com/products", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -17,7 +17,7 @@ export const ProductProvider = (props) => {
     }
 
     const deleteProduct = id => {
-        return fetch(`http://localhost:8000/products/${id}`, {
+        return fetch(`https://stockupapi.herokuapp.com/products/${id}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Token ${localStorage.getItem("lu_token")}`
@@ -27,7 +27,7 @@ export const ProductProvider = (props) => {
     }
 
     const getProductById = id => {
-        return fetch(`http://localhost:8000/products/${id}`, {
+        return fetch(`https://stockupapi.herokuapp.com/products/${id}`, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -36,7 +36,7 @@ export const ProductProvider = (props) => {
     }
 
     const addNewProduct = product => {
-        return fetch("http://localhost:8000/products", {
+        return fetch("https://stockupapi.herokuapp.com/products", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export const ProductProvider = (props) => {
     }
 
     const updateProduct = product => {
-        return fetch(`http://localhost:8000/products/${product.id}`, {
+        return fetch(`https://stockupapi.herokuapp.com/products/${product.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
