@@ -103,7 +103,7 @@ export const OrderRecDetail = () => {
             {rec?.orderrecpart_set?.map(part =>
                 part.date_ordered !== '2000-01-01' ? 
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
-                    <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.product_part.company_part.deleted ? part.product_part.company_part.part.name : <Link to={{pathname: `/inventory/${part.product_part.company_part.id}`}}>{part.product_part.company_part.part.name}</Link>}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.part_amount_ordered}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.date_ordered}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.date_received}</ListGroup.Item>
@@ -126,7 +126,7 @@ export const OrderRecDetail = () => {
             part.date_ordered !== '2000-01-01' ? 
             <>
                 <ListGroup horizontal key={part.product_part.company_part.part.id} >
-                    <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/inventory/${part.product_part.company_part.id}`}}>{part.product_part.company_part.part.name}</Link></ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{part.product_part.company_part.deleted ? part.product_part.company_part.part.name : <Link to={{pathname: `/inventory/${part.product_part.company_part.id}`}}>{part.product_part.company_part.part.name}</Link>}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.part_amount_to_order} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.part_amount_ordered} {part.part_amount_ordered === 0 && part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{part.product_part.company_part.in_inventory} {part.product_part.company_part.part.unit_of_measurement.label}</ListGroup.Item>
@@ -135,7 +135,7 @@ export const OrderRecDetail = () => {
                         part.date_ordered === null ? <Button id='markOrdered' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Ordered</Button> : <Button id='markReceived' className='w-50' onClick={event => {handleShow(event); setOrderRecPartId(part.id)}}>Mark Received</Button> 
                         : 
                         // If received isn't null, then there's nothing else to do for this part
-                        <ListGroup.Item className='w-50' variant='light'>Received {part.part_amount_ordered} On: {part.date_received}</ListGroup.Item>
+                        <ListGroup.Item className='w-50' variant='light'>Received On: {part.date_received}</ListGroup.Item>
                         
                     }
                     
@@ -212,7 +212,7 @@ export const OrderRecDetail = () => {
             <>
                 {rec?.products?.map(product =>
                 <ListGroup horizontal key={product.id} >
-                    <ListGroup.Item className='w-50' variant='light'><Link to={{pathname: `/products/${product.id}`}}>{product.name}</Link></ListGroup.Item>
+                    <ListGroup.Item className='w-50' variant='light'>{product.deleted ? product.name : <Link to={{pathname: `/products/${product.id}`}}>{product.name}</Link>}</ListGroup.Item>
                     <ListGroup.Item className='w-50' variant='light'>{product.amount_sold}</ListGroup.Item>
                 </ListGroup>
             )}

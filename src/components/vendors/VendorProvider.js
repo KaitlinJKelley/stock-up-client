@@ -7,7 +7,7 @@ export const VendorProvider = (props) => {
     const [vendors, setVendors] = useState([])
 
     const getVendors = () => {
-        return fetch("https://stockupapi.herokuapp.com/vendors", {
+        return fetch("http://localhost:8000/vendors", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }

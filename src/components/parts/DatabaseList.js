@@ -9,6 +9,7 @@ export const DatabaseList = () => {
     const history = useHistory()
 
     const { getDatabase, database } = useContext(DatabaseContext)
+    console.log(database)
 
     useEffect(() => {
         getDatabase()

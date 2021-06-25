@@ -10,10 +10,14 @@ export const InventoryList = () => {
 
     const {getInventory, inventory, removeInventory} = useContext(InventoryContext)
 
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false)
+    const [partId, setPartId] = useState(0)
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = event => {
+        setPartId(event.target.id)
+        setShow(true)
+    };
 
     useEffect(() => {
         getInventory()
@@ -30,30 +34,30 @@ export const InventoryList = () => {
                     <ListGroup.Item>{part.part.part_number}</ListGroup.Item>
                     <ListGroup.Item>{part.part.vendor.name}</ListGroup.Item>
                     <ListGroup.Item>{part.in_inventory} {part.part.unit_of_measurement.label} in stock</ListGroup.Item>
-                    <Button id={part.id} onClick={handleShow} variant='danger'>Remove</Button>
+                    <Button id={part.id} onClick={event => handleShow(event)} variant='danger'>Remove</Button>
                 </ListGroup>
-                <Modal show={show} onHide={handleClose} key={Math.random()}>
-                    <Modal.Header closeButton>
-                    </Modal.Header>
-                    <Modal.Body>Deleting this part will remove from all of your products, but it will still be on your reports</Modal.Body>
-                    <Modal.Footer>
-                    <Button variant="secondary" 
-                        onClick={evt => {
-                            evt.preventDefault()
-                            removeInventory(part.id)
-                            handleClose()
-                        }}
-                    >
-                        Delete it!
-                    </Button>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Don't delete
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
             </>
             ))
         )}
+        <Modal show={show} onHide={handleClose} key={Math.random()}>
+            <Modal.Header closeButton>
+            </Modal.Header>
+            <Modal.Body>Deleting this part will remove from all of your products, but it will still be on your reports</Modal.Body>
+            <Modal.Footer>
+            <Button variant="secondary" 
+                onClick={evt => {
+                    evt.preventDefault()
+                    removeInventory(partId)
+                    handleClose()
+                }}
+            >
+                Delete it!
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+                Don't delete
+            </Button>
+            </Modal.Footer>
+        </Modal>
         </>
     )
 }
