@@ -149,7 +149,7 @@ export const OrderRecDetail = () => {
                 </Modal.Header>
                     <>
                         <Form.Label type='text'>Date Ordered</Form.Label>
-                        <Form.Control id='dateOrdered' type='date' value={change.dateOrdered && change.dateOrdered} onChange={handleStatusChange}></Form.Control>
+                        <Form.Control id='dateOrdered' type='date' placeholder="yyyy-mm-dd" value={change.dateOrdered && change.dateOrdered} onChange={handleStatusChange}></Form.Control>
                         <Form.Label type='text'>Amount Ordered</Form.Label>
                         <Form.Control id='amountOrdered' value={change.amountOrdered && change.amountOrdered} onChange={handleStatusChange}></Form.Control>
                     </>
@@ -171,7 +171,7 @@ export const OrderRecDetail = () => {
                 </Modal.Header>
                     <>
                         <Form.Label type='text'>Date Received</Form.Label>
-                        <Form.Control id='dateReceived' type='date' value={change.dateReceived && change.dateReceived} onChange={handleStatusChange}></Form.Control>
+                        <Form.Control id='dateReceived' type='date' placeholder="yyyy-mm-dd" value={change.dateReceived && change.dateReceived} onChange={handleStatusChange}></Form.Control>
                     </> 
     
                 <Modal.Footer>

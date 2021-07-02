@@ -56,11 +56,11 @@ export const OrderRecForm = () => {
                 <Form.Row as='row'>
                     <Col>
                     <Form.Label>Sales Start Date:</Form.Label>
-                        <Form.Control className='w-75' id='salesStartDate' type='date' onChange={handleChange}></Form.Control>
+                        <Form.Control className='w-75' id='salesStartDate' type='date' placeholder="yyyy-mm-dd" onChange={handleChange}></Form.Control>
                     </Col>
                     <Col>
                     <Form.Label>Sales End Date:</Form.Label>
-                        <Form.Control className='w-75' id='salesEndDate' type='date' onChange={handleChange}></Form.Control>
+                        <Form.Control className='w-75' id='salesEndDate' type='date' placeholder="yyyy-mm-dd" onChange={handleChange}></Form.Control>
                     </Col>
                 </Form.Row>
             </Form.Group>
