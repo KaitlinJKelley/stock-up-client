@@ -13,6 +13,8 @@ import { ProductDetail } from "./products/ProductDetail"
 import { ProductForm } from "./products/ProductForm"
 import { ProductList } from "./products/ProductList"
 import { ProductProvider } from "./products/ProductProvider"
+import { VendorDetail } from "./vendors/VendorDetail"
+import { VendorList } from "./vendors/VendorList"
 import { VendorProvider } from "./vendors/VendorProvider"
 
 export const ApplicationViews = () => {
@@ -57,6 +59,13 @@ export const ApplicationViews = () => {
                                 </Route>
                                 <Route path='/inventory/:partId(\d+)'>
                                     <InventoryDetail/>
+                                </Route>
+
+                                <Route exact path='/user_vendors'>
+                                    <VendorList/>
+                                </Route>
+                                <Route exact path='/user_vendors/:vendorId(\d+)'>
+                                    <VendorDetail/>
                                 </Route>
 
                                 <Route exact path='/products'>

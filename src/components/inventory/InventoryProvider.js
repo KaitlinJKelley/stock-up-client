@@ -10,7 +10,7 @@ export const InventoryProvider = (props) => {
     const {getDatabase} = useContext(DatabaseContext)
 
     const addToInventory = (part) => {
-        return fetch("https://stockupapi.herokuapp.com/inventory", {
+        return fetch("http://localhost:8000/inventory", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export const InventoryProvider = (props) => {
     }
 
     const getUnitsOfMeasurement = () => {
-        return fetch("https://stockupapi.herokuapp.com/units", {
+        return fetch("http://localhost:8000/units", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -32,7 +32,7 @@ export const InventoryProvider = (props) => {
     }
 
     const getInventory = () => {
-        return fetch("https://stockupapi.herokuapp.com/inventory", {
+        return fetch("http://localhost:8000/inventory", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -42,7 +42,7 @@ export const InventoryProvider = (props) => {
     }
 
     const checkPart = (part) => {
-        return fetch("https://stockupapi.herokuapp.com/database/check_part", {
+        return fetch("http://localhost:8000/database/check_part", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export const InventoryProvider = (props) => {
     }
 
     const removeInventory = id => {
-        return fetch(`https://stockupapi.herokuapp.com/inventory/${id}`, {
+        return fetch(`http://localhost:8000/inventory/${id}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Token ${localStorage.getItem("lu_token")}`
@@ -64,7 +64,7 @@ export const InventoryProvider = (props) => {
     }
 
     const getInventoryById = id => {
-        return fetch(`https://stockupapi.herokuapp.com/inventory/${id}`, {
+        return fetch(`http://localhost:8000/inventory/${id}`, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -73,7 +73,7 @@ export const InventoryProvider = (props) => {
     }
 
     const updateInventory = part => {
-        return fetch(`https://stockupapi.herokuapp.com/inventory/${part.id}`, {
+        return fetch(`http://localhost:8000/inventory/${part.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

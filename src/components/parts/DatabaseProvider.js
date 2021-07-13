@@ -7,7 +7,7 @@ export const DatabaseProvider = (props) => {
     const [database, setDatabase] = useState([])
 
     const getDatabase = () => {
-        return fetch("https://stockupapi.herokuapp.com/database", {
+        return fetch("http://localhost:8000/database", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -17,7 +17,7 @@ export const DatabaseProvider = (props) => {
     }
 
     const addNewDatabasePart = part => {
-        return fetch("https://stockupapi.herokuapp.com/database", {
+        return fetch("http://localhost:8000/database", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
