@@ -4,9 +4,13 @@ import { useParams } from 'react-router'
 import { VendorContext } from './VendorProvider'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import { useHistory } from 'react-router-dom'
 
 export const VendorDetail = () => {
-    const {getVendorById} = useContext(VendorContext)
+    const {getVendorById, updateVendor} = useContext(VendorContext)
+
+    const history = useHistory()
+
     const [vendor, setVendor] = useState({})
     const [editClicked, setEditClicked] = useState(false)
 
@@ -23,49 +27,50 @@ export const VendorDetail = () => {
         setVendor(vendorCopy)
     }
 
+    const handleSaveClicked = () => {
+        setEditClicked(false)
+        updateVendor(vendor)
+        history.push("/user_vendors")
+    }
+
     return(<>
-        <h1>{vendor.vendor?.name}</h1>
+        <h1>{vendor.name}</h1>
         {editClicked ? 
         <>
         <ListGroup horizontal>
-            <Form.Label htmlFor="website">Website: </Form.Label>
-            <Form.Control readOnly placeholder={vendor.vendor?.website}></Form.Control>
+            <b><Form.Label htmlFor="website">Website: </Form.Label></b>
+            <Form.Control readOnly placeholder={vendor.website}></Form.Control>
         </ListGroup>
         <Form.Group horizontal>
-            <Form.Label htmlFor="phone">Phone: </Form.Label>
-            <Form.Control name="phone" value={vendor.phone} onChange={handleInputChange}></Form.Control>
-        </Form.Group>
-        <Form.Group horizontal>
-            <Form.Label htmlFor="address">Address: </Form.Label>
+            <b><Form.Label htmlFor="address">Address: </Form.Label></b>
             <Form.Control name="address" value={vendor.address} onChange={handleInputChange}></Form.Control>
         </Form.Group>
         <Form.Group horizontal>
-            <Form.Label htmlFor="sales_rep_name">Sales Rep: </Form.Label>
-            <Form.Control name="sales_rep_name" value={vendor.sales_rep_name} onChange={handleInputChange}></Form.Control>
+            <b><Form.Label htmlFor="salesRepName">Sales Rep: </Form.Label></b>
+            <Form.Control name="salesRepName" value={vendor.salesRepName} onChange={handleInputChange}></Form.Control>
         </Form.Group>
         <Form.Group horizontal>
-            <Form.Label htmlFor="sales_rep_phone">Sales Rep Phone: </Form.Label>
-            <Form.Control name="sales_rep_phone" value={vendor.sales_rep_phone} onChange={handleInputChange}></Form.Control>
+            <b><Form.Label htmlFor="salesRepPhone">Sales Rep Phone: </Form.Label></b>
+            <Form.Control name="salesRepPhone" value={vendor.salesRepPhone} onChange={handleInputChange}></Form.Control>
         </Form.Group>
         <Form.Group horizontal>
-            <Form.Label htmlFor="login_username">Username: </Form.Label>
-            <Form.Control name="login_username" value={vendor.login_username} onChange={handleInputChange}></Form.Control>
+            <b><Form.Label htmlFor="loginUsername">Username on Vendor Site: </Form.Label></b>
+            <Form.Control name="loginUsername" value={vendor.loginUsername} onChange={handleInputChange}></Form.Control>
         </Form.Group>
         <Form.Group horizontal>
-            <Form.Label htmlFor="login_password">Password: </Form.Label>
-            <Form.Control name="login_password" value={vendor.login_password} onChange={handleInputChange}></Form.Control>
+            <b><Form.Label htmlFor="loginPassword">Password on Vendor Site: </Form.Label></b>
+            <Form.Control name="loginPassword" value={vendor.loginPassword} onChange={handleInputChange}></Form.Control>
         </Form.Group>
-        <Button variant='success' onClick={() => setEditClicked(true)}>Save</Button>
+        <Button variant='success' onClick={handleSaveClicked}>Save</Button>
         </>
         : 
         <ListGroup>
-            <ListGroup.Item>Website: <a href={vendor.vendor?.website} target="_blank">{vendor.vendor?.website}</a></ListGroup.Item>
-            <ListGroup.Item>Phone: {vendor.phone}</ListGroup.Item>
-            <ListGroup.Item>Address: {vendor.address}</ListGroup.Item>
-            <ListGroup.Item>Sales Rep: {vendor.sales_rep_name}</ListGroup.Item>
-            <ListGroup.Item>Sales Rep Phone: {vendor.sales_rep_phone}</ListGroup.Item>
-            <ListGroup.Item>Username: {vendor.login_username}</ListGroup.Item>
-            <ListGroup.Item>Password: {vendor.login_password}</ListGroup.Item>
+            <ListGroup.Item><b>Website:</b> <a href={vendor.website} target="_blank">{vendor.website}</a></ListGroup.Item>
+            <ListGroup.Item><b>Address:</b> {vendor.address}</ListGroup.Item>
+            <ListGroup.Item><b>Sales Rep:</b> {vendor.salesRepName}</ListGroup.Item>
+            <ListGroup.Item><b>Sales Rep Phone:</b> {vendor.salesRepPhone}</ListGroup.Item>
+            <ListGroup.Item><b>Username on Vendor Site:</b> {vendor.loginUsername}</ListGroup.Item>
+            <ListGroup.Item><b>Password on Vendor Site:</b> {vendor.loginPassword}</ListGroup.Item>
             <Button variant='warning' onClick={() => setEditClicked(true)}>Edit</Button>
         </ListGroup>
         }
