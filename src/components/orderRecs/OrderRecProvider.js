@@ -7,7 +7,7 @@ export const OrderRecProvider = (props) => {
     const [orderRecs, setOrderRecs] = useState([])
 
     const getOrderRecs = () => {
-        return fetch("http://localhost:8000/order_recs", {
+        return fetch("https://stockupapi.herokuapp.com/order_recs", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -17,7 +17,7 @@ export const OrderRecProvider = (props) => {
     }
 
     const getOrderRecById = id => {
-        return fetch(`http://localhost:8000/order_recs/${id}`, {
+        return fetch(`https://stockupapi.herokuapp.com/order_recs/${id}`, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -26,7 +26,7 @@ export const OrderRecProvider = (props) => {
     }
 
     const updateOrderRec = (salesList, order_rec_id) => {
-        return fetch(`http://localhost:8000/order_recs/${order_rec_id}`, {
+        return fetch(`https://stockupapi.herokuapp.com/order_recs/${order_rec_id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export const OrderRecProvider = (props) => {
     }
 
     const getRecentOrderRec = () => {
-        return fetch(`http://localhost:8000/order_recs/recent`, {
+        return fetch(`https://stockupapi.herokuapp.com/order_recs/recent`, {
             headers:{
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -46,7 +46,7 @@ export const OrderRecProvider = (props) => {
     }
 
     const addNewOrderRec = orderRec => {
-        return fetch("http://localhost:8000/order_recs", {
+        return fetch("https://stockupapi.herokuapp.com/order_recs", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export const OrderRecProvider = (props) => {
     }
 
     const changeStatus = change => {
-        return fetch("http://localhost:8000/order_recs/change_status", {
+        return fetch("https://stockupapi.herokuapp.com/order_recs/change_status", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

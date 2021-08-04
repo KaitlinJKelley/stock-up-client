@@ -7,7 +7,7 @@ export const VendorProvider = (props) => {
     const [vendors, setVendors] = useState([])
 
     const getVendors = () => {
-        return fetch("http://localhost:8000/vendors", {
+        return fetch("https://stockupapi.herokuapp.com/vendors", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -17,7 +17,7 @@ export const VendorProvider = (props) => {
     }
 
     const getCompanyVendors = () => {
-        return fetch("http://localhost:8000/company_vendors", {
+        return fetch("https://stockupapi.herokuapp.com/company_vendors", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -26,7 +26,7 @@ export const VendorProvider = (props) => {
     }
 
     const getVendorById = (id) => {
-        return fetch(`http://localhost:8000/company_vendors/${id}`, {
+        return fetch(`https://stockupapi.herokuapp.com/company_vendors/${id}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -48,7 +48,7 @@ export const VendorProvider = (props) => {
     }
 
     const updateVendor = vendor => {
-        return fetch(`http://localhost:8000/company_vendors/${vendor.id}`, {
+        return fetch(`https://stockupapi.herokuapp.com/company_vendors/${vendor.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
