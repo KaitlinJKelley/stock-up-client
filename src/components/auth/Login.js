@@ -11,15 +11,15 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch("https://stockupapi.herokuapp.com/login", {
+        return fetch("http://localhost:8000/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                username: email.current.value,
-                password: password.current.value
+                username: email.current.value == "" ? "test@user.com" : email.current.value,
+                password: password.current.value == "" ? "password" : password.current.value
             })
         })
             .then(res => res.json())
@@ -46,11 +46,11 @@ export const Login = () => {
                     <h2>Please sign in</h2>
                     <fieldset>
                         <label htmlFor="inputEmail"> Email address </label>
-                        <input ref={email} value="test@user.com" type="email" id="email" className="form-control"  placeholder="Email address" required autoFocus />
+                        <input ref={email} type="email" id="email" className="form-control"  placeholder="test@user.com" autoFocus />
                     </fieldset>
                     <fieldset>
                         <label htmlFor="inputPassword"> Password </label>
-                        <input ref={password} value="password" type="password" id="password" className="form-control"  placeholder="Password" required />
+                        <input ref={password} type="password" id="password" placeholder=".........." className="form-control" />
                     </fieldset>
                     <fieldset style={{
                         textAlign:"center"
