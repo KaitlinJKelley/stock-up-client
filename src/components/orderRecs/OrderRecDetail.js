@@ -24,6 +24,7 @@ export const OrderRecDetail = () => {
     const handleClose = () => {
         setShowOrdered(false)
         setShowReceived(false)
+
     }
 
     const handleShow = event => {
@@ -158,8 +159,7 @@ export const OrderRecDetail = () => {
                     onClick={evt => {
                         evt.preventDefault()
                         changeStatus(change)
-                        .then(() => change={})
-                        handleClose()
+                        .then(() => {change={}; handleClose()})
                     }}
                 >
                     Save
@@ -179,8 +179,7 @@ export const OrderRecDetail = () => {
                     onClick={evt => {
                         evt.preventDefault()
                         changeStatus(change)
-                        .then(() => change={})
-                        handleClose()
+                        .then(() => {change={}; handleClose()})
                     }}
                 >
                     Save
