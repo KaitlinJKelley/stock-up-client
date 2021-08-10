@@ -28,7 +28,10 @@ export const ProductProvider = (props) => {
             "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-        .then(getProducts)
+        .then(res => {
+            checkAuth(res)
+            getProducts()
+        })
     }
 
     const getProductById = id => {
@@ -37,7 +40,11 @@ export const ProductProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-            .then(response => response.json())
+        .then(res => res.json())
+        .then(res => {
+            checkAuth(res)
+            return res
+        })
     }
 
     const addNewProduct = product => {
@@ -49,7 +56,11 @@ export const ProductProvider = (props) => {
             },
             body: JSON.stringify(product)
          })
-         .then(getProducts)
+         .then(res => res.json())
+         .then(res => {
+            checkAuth(res)
+            getProducts()
+        })
     }
 
     const updateProduct = product => {
@@ -61,7 +72,11 @@ export const ProductProvider = (props) => {
             },
             body: JSON.stringify(product)
          })
-            .then(getProducts)
+         .then(res => res.json())
+         .then(res => {
+            checkAuth(res)
+            getProducts()
+        })
     }
 
     return (

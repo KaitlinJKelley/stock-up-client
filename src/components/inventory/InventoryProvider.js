@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
+import { AuthContext } from '../auth/LoginProvider'
 import { DatabaseContext } from '../parts/DatabaseProvider'
 
 export const InventoryContext = createContext()
@@ -8,6 +9,7 @@ export const InventoryProvider = (props) => {
     const [unitsOfMeasurement, setUnitsOfMeasurement] = useState([])
 
     const {getDatabase} = useContext(DatabaseContext)
+    const {checkAuth} = useContext(AuthContext)
 
     const addToInventory = (part) => {
         return fetch("http://localhost:8000/inventory", {
@@ -28,7 +30,10 @@ export const InventoryProvider = (props) => {
             }
         })
             .then(response => response.json())
-            .then(setUnitsOfMeasurement)
+            .then(res => {
+                checkAuth(res)
+                setUnitsOfMeasurement(res)
+            })
     }
 
     const getInventory = () => {
@@ -38,7 +43,10 @@ export const InventoryProvider = (props) => {
             }
         })
             .then(response => response.json())
-            .then(setInventory)
+            .then(res => {
+                checkAuth(res)
+                setInventory(res)
+            })
     }
 
     const checkPart = (part) => {
@@ -51,6 +59,10 @@ export const InventoryProvider = (props) => {
             body: JSON.stringify(part)
          })
          .then(response => response.json())
+         .then(res => {
+             checkAuth(res)
+             return res
+        })
     }
 
     const removeInventory = id => {
@@ -69,7 +81,10 @@ export const InventoryProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-            .then(response => response.json())
+        .then(res => {
+            checkAuth(res)
+            res.json()
+        })
     }
 
     const updateInventory = part => {
