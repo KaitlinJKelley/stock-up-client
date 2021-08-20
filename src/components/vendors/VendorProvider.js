@@ -1,10 +1,12 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
+import { AuthContext } from "../auth/LoginProvider"
 
 export const VendorContext = createContext()
 
 export const VendorProvider = (props) => {
 
     const [vendors, setVendors] = useState([])
+    const {checkAuth} = useContext(AuthContext)
 
     const getVendors = () => {
         return fetch("https://stockupapi.herokuapp.com/vendors", {
@@ -13,7 +15,10 @@ export const VendorProvider = (props) => {
             }
         })
             .then(response => response.json())
-            .then(setVendors)
+            .then(res => {
+                checkAuth(res)
+                setVendors(res)
+            })
     }
 
     const getCompanyVendors = () => {
@@ -22,7 +27,10 @@ export const VendorProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-            .then(response => response.json())
+        .then(res => {
+            checkAuth(res)
+            return res.json()
+        })
     }
 
     const getVendorById = (id) => {
@@ -33,6 +41,7 @@ export const VendorProvider = (props) => {
         })
             .then(response => response.json())
             .then(res => {
+                checkAuth(res)
                 const vendor = {
                     "id": res.id,
                     "name": res.vendor.name,

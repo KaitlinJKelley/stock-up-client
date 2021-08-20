@@ -5,16 +5,19 @@ import { Login } from "./auth/Login"
 import { OrderRecProvider } from "./orderRecs/OrderRecProvider"
 import { NavBar } from "./nav/NavBar"
 import { Register } from "./auth/Register"
+import { AuthProvider } from "./auth/LoginProvider"
 
 export const StockUp = () => (
     <>
         <Route render={() => {
             if (localStorage.getItem("lu_token")) {
                 return <>
-                    <OrderRecProvider>
-                        <NavBar />
-                    <ApplicationViews />
-                    </OrderRecProvider>
+                    <AuthProvider>
+                        <OrderRecProvider>
+                            <NavBar />
+                        <ApplicationViews />
+                        </OrderRecProvider>
+                    </AuthProvider>
                 </>
             } else {
                 return <Redirect to="/login" />
@@ -34,7 +37,7 @@ export const StockUp = () => (
                 return <Redirect to="/" />
             } else {
                 return <Register />
-                return("")
+                // return("")
             }
         }} />
     </>

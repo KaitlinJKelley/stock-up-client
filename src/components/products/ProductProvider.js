@@ -1,8 +1,10 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
+import { AuthContext } from "../auth/LoginProvider"
 
 export const ProductContext = createContext()
 
 export const ProductProvider = (props) => {
+    const {checkAuth} = useContext(AuthContext)
 
     const [products, setProducts] = useState([])
 
@@ -13,7 +15,10 @@ export const ProductProvider = (props) => {
             }
         })
             .then(response => response.json())
-            .then(setProducts)
+            .then(res => {
+                checkAuth(res)
+                setProducts(res)
+            })
     }
 
     const deleteProduct = id => {
@@ -23,7 +28,10 @@ export const ProductProvider = (props) => {
             "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-        .then(getProducts)
+        .then(res => {
+            checkAuth(res)
+            getProducts()
+        })
     }
 
     const getProductById = id => {
@@ -32,7 +40,11 @@ export const ProductProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-            .then(response => response.json())
+        .then(res => res.json())
+        .then(res => {
+            checkAuth(res)
+            return res
+        })
     }
 
     const addNewProduct = product => {
@@ -44,7 +56,11 @@ export const ProductProvider = (props) => {
             },
             body: JSON.stringify(product)
          })
-         .then(getProducts)
+         .then(res => res.json())
+         .then(res => {
+            checkAuth(res)
+            getProducts()
+        })
     }
 
     const updateProduct = product => {
@@ -56,7 +72,11 @@ export const ProductProvider = (props) => {
             },
             body: JSON.stringify(product)
          })
-            .then(getProducts)
+         .then(res => res.json())
+         .then(res => {
+            checkAuth(res)
+            getProducts()
+        })
     }
 
     return (

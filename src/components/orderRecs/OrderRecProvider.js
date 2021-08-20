@@ -1,10 +1,14 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
+import { useHistory } from "react-router-dom"
+import { AuthContext } from "../auth/LoginProvider"
 
 export const OrderRecContext = createContext()
 
 export const OrderRecProvider = (props) => {
 
+    const {checkAuth} = useContext(AuthContext)
     const [orderRecs, setOrderRecs] = useState([])
+    const history = useHistory()
 
     const getOrderRecs = () => {
         return fetch("https://stockupapi.herokuapp.com/order_recs", {
@@ -13,7 +17,10 @@ export const OrderRecProvider = (props) => {
             }
         })
             .then(response => response.json())
-            .then(setOrderRecs)
+            .then(res => {
+                checkAuth(res)
+                setOrderRecs(res)
+            })
     }
 
     const getOrderRecById = id => {
@@ -22,7 +29,11 @@ export const OrderRecProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-            .then(response => response.json())
+        .then(res => res.json())
+        .then(res => {
+            checkAuth(res)
+            return res
+        })
     }
 
     const updateOrderRec = (salesList, order_rec_id) => {
@@ -34,6 +45,7 @@ export const OrderRecProvider = (props) => {
             },
             body: JSON.stringify(salesList)
          })
+         .then(res => checkAuth(res))
     }
 
     const getRecentOrderRec = () => {
@@ -42,7 +54,11 @@ export const OrderRecProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-            .then(response => response.json())
+            .then(res => res.json())
+            .then(res => {
+                checkAuth(res)
+                return res
+            })
     }
 
     const addNewOrderRec = orderRec => {
@@ -54,6 +70,7 @@ export const OrderRecProvider = (props) => {
             },
             body: JSON.stringify(orderRec)
          })
+         .then(res => checkAuth(res))
     }
 
     const changeStatus = change => {
@@ -65,6 +82,7 @@ export const OrderRecProvider = (props) => {
             },
             body: JSON.stringify(change)
          })
+         .then(res => checkAuth(res))
     }
 
     return (

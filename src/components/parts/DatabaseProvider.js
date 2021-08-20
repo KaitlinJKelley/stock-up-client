@@ -1,10 +1,12 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useContext, useState } from "react"
+import { AuthContext } from "../auth/LoginProvider"
 
 export const DatabaseContext = createContext()
 
 export const DatabaseProvider = (props) => {
 
     const [database, setDatabase] = useState([])
+    const {checkAuth} = useContext(AuthContext)
 
     const getDatabase = () => {
         return fetch("https://stockupapi.herokuapp.com/database", {
@@ -13,7 +15,10 @@ export const DatabaseProvider = (props) => {
             }
         })
             .then(response => response.json())
-            .then(setDatabase)
+            .then(res => {
+                checkAuth(res)
+                setDatabase(res)
+            })
     }
 
     const addNewDatabasePart = part => {
@@ -25,7 +30,10 @@ export const DatabaseProvider = (props) => {
             },
             body: JSON.stringify(part)
          })
-         .then(getDatabase)
+         .then(res => {
+            checkAuth(res)
+            getDatabase()
+        })
     }
 
     return (
