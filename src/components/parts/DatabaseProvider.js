@@ -9,7 +9,7 @@ export const DatabaseProvider = (props) => {
     const {checkAuth} = useContext(AuthContext)
 
     const getDatabase = () => {
-        return fetch("http://localhost:8000/database", {
+        return fetch("https://stockupapi.herokuapp.com/database", {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
@@ -22,7 +22,7 @@ export const DatabaseProvider = (props) => {
     }
 
     const addNewDatabasePart = part => {
-        return fetch("http://localhost:8000/database", {
+        return fetch("https://stockupapi.herokuapp.com/database", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
