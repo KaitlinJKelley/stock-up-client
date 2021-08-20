@@ -21,8 +21,6 @@ export const ProductForm = () => {
         "parts": []
     })
 
-    console.log(product.parts)
-
     const [options, setOptions] = useState([])
 
     useEffect(() => {

@@ -83,7 +83,7 @@ export const InventoryProvider = (props) => {
         })
         .then(res => {
             checkAuth(res)
-            res.json()
+            return res.json()
         })
     }
 

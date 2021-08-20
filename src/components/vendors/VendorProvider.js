@@ -27,10 +27,9 @@ export const VendorProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("lu_token")}`
             }
         })
-        .then(response => response.json())
         .then(res => {
             checkAuth(res)
-            res.json()
+            return res.json()
         })
     }
 
